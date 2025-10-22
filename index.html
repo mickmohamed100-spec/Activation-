@@ -1,0 +1,3569 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1XBET Premium - Activation de Compte</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCYvQQ5pjPAikOae9qJhHhFZCsjv3JPXWg",
+            authDomain: "mon-59165.firebaseapp.com",
+            projectId: "mon-59165",
+            storageBucket: "mon-59165.firebasestorage.app",
+            messagingSenderId: "295719848781",
+            appId: "1:295719848781:web:c93f749ef33b44f2660504"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        // Make Firebase available globally
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+        window.firebaseFunctions = {
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            onAuthStateChanged,
+            signOut,
+            doc,
+            setDoc,
+            getDoc,
+            updateDoc,
+            collection,
+            addDoc,
+            getDocs
+        };
+        
+        console.log("✅ Firebase initialisé avec succès!");
+    </script>
+    
+    <style>
+        :root {
+            --primary-blue: #1a237e;
+            --light-blue: #03a9f4;
+            --gray-bg: #f5f5f5;
+            --dark-gray: #424242;
+            --white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0e0e0 0%, #9e9e9e 100%);
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Page d'avertissement */
+        .warning-page {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .warning-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            animation: slideUp 1s ease;
+        }
+
+        .warning-header {
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--light-blue);
+            padding-bottom: 20px;
+        }
+
+        .warning-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--light-blue);
+        }
+
+        .warning-body {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .warning-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid var(--light-blue);
+        }
+
+        .warning-section h3 {
+            margin-bottom: 10px;
+            color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-accept {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-decline {
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Page de connexion */
+        .login-page {
+            background: linear-gradient(135deg, #e0e0e0 0%, #9e9e9e 100%);
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .login-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            animation: slideUp 1s ease;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            transform: skew(-10deg);
+        }
+
+        .logo-1x {
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-bet {
+            color: var(--light-blue);
+        }
+
+        .logo-premium {
+            color: var(--light-blue);
+            font-size: 2.5rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .form-group input {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 2px var(--light-blue);
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #303f9f 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(26, 35, 126, 0.4);
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .switch-auth-mode {
+            background: none;
+            border: none;
+            color: var(--primary-blue);
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
+
+        /* Tableau de bord */
+        .dashboard {
+            background: linear-gradient(135deg, #e0e0e0 0%, #9e9e9e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 1s ease;
+            display: none;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Logo 1XPREMIUM réduit pour plus d'espace */
+        .dashboard-logo {
+            font-size: 2rem;
+            font-weight: 900;
+            transform: skew(-10deg);
+            color: var(--primary-blue);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 60px; /* Espacement augmenté entre le logo et l'icône utilisateur */
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-details h3 {
+            color: var(--dark-gray);
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+
+        .user-details p {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 15px;
+        }
+
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .dashboard-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 30px;
+            animation: slideUp 0.8s ease;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 15px;
+        }
+
+        .card-header h2 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+        }
+
+        .balance-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .balance {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-align: center;
+        }
+
+        /* AMÉLIORATION : Conteneur pour les boutons CASHVIP, Historique et Profil */
+        .balance-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-cashvip {
+            background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .btn-history {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .btn-profile {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .btn-cashvip:hover, .btn-history:hover, .btn-profile:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .account-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .info-item h4 {
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .info-item p {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-deposit {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+        }
+
+        .btn-withdraw {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+        }
+
+        .btn-activate {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #303f9f 100%);
+            color: white;
+            width: 100%;
+        }
+
+        /* Section Promotions VIP */
+        .promotions-section {
+            margin-top: 30px;
+        }
+
+        .promotions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .promotion-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .promotion-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .promotion-card h4 {
+            color: var(--light-blue);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .promotion-card p {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .promotion-api {
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            word-break: break-all;
+        }
+
+        /* Page de formulaire d'activation - AJOUT DU CHAMP GMAIL */
+        .activation-form-page {
+            background: linear-gradient(135deg, #e0e0e0 0%, #9e9e9e 100%);
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .activation-form-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            animation: slideUp 1s ease;
+        }
+
+        .activation-form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .activation-form-header h1 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .activation-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--light-blue);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            background: rgba(3, 169, 244, 0.1);
+        }
+
+        .file-upload i {
+            font-size: 3rem;
+            color: var(--light-blue);
+            margin-bottom: 15px;
+        }
+
+        .file-upload p {
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .btn-validate {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-validate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Popup d'information OSJL */
+        .osjl-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .osjl-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid #e0e0e0;
+            animation: slideUp 0.5s ease;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .osjl-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 15px;
+        }
+
+        .osjl-header h2 {
+            color: var(--primary-blue);
+            font-size: 2rem;
+        }
+
+        .osjl-body {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .osjl-body p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .osjl-footer {
+            text-align: center;
+        }
+
+        .btn-accept-osjl {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-accept-osjl:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Page CASHVIP avec sélection de niveau */
+        .cashvip-page {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 1s ease;
+            display: none;
+        }
+
+        .cashvip-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+        }
+
+        .cashvip-header h1 {
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .cashvip-header p {
+            color: var(--dark-gray);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .levels-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .level-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .level-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .level-card.selected {
+            border-color: var(--light-blue);
+            background: rgba(3, 169, 244, 0.05);
+        }
+
+        .level-icon-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+        }
+
+        .level-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .level-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .level-description {
+            color: var(--dark-gray);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .level-benefits {
+            list-style: none;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .level-benefits li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .level-benefits i {
+            color: #4caf50;
+        }
+
+        .btn-select-level {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #303f9f 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-select-level:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(26, 35, 126, 0.4);
+        }
+
+        /* Page de dépôt avec niveau présélectionné */
+        .deposit-page {
+            background: linear-gradient(135deg, #e0e0e0 0%, #9e9e9e 100%);
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .deposit-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            animation: slideUp 1s ease;
+        }
+
+        .deposit-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .deposit-header h1 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .selected-level-info {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .selected-level-info h3 {
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .selected-level-info .level-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .deposit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .conversion-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .conversion-info p {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .payment-method {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method.selected {
+            border-color: var(--light-blue);
+            background: rgba(3, 169, 244, 0.1);
+        }
+
+        .payment-method i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+        }
+
+        .btn-deposit-submit {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #303f9f 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-deposit-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(26, 35, 126, 0.4);
+        }
+
+        /* Amélioration de la sélection de pays */
+        .country-select-wrapper {
+            position: relative;
+        }
+
+        .country-select {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .country-select:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 2px var(--light-blue);
+        }
+
+        .country-select-wrapper::after {
+            content: '\f078';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--dark-gray);
+        }
+
+        /* Popup de confirmation de paiement */
+        .payment-confirmation-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .payment-confirmation-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid #e0e0e0;
+            text-align: center;
+            animation: pulse 2s infinite, slideUp 0.5s ease;
+            color: #333;
+        }
+
+        .payment-confirmation-content h2 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .payment-confirmation-content p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            color: #424242;
+        }
+
+        .countdown-timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin: 20px 0;
+            animation: pulse 1s infinite;
+        }
+
+        .phone-animation {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+            color: var(--primary-blue);
+        }
+
+        /* Popup de patienter pour email */
+        .waiting-email-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .waiting-email-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid #e0e0e0;
+            text-align: center;
+            animation: slideUp 0.5s ease;
+            color: #333;
+        }
+
+        .waiting-email-content h2 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .waiting-email-content p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            color: #424242;
+        }
+
+        .email-animation {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+            color: var(--primary-blue);
+        }
+
+        /* Page Historique */
+        .history-page {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 1s ease;
+            display: none;
+        }
+
+        .history-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+        }
+
+        .history-header h1 {
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .history-header p {
+            color: var(--dark-gray);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .transaction-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #4caf50;
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .transaction-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .transaction-status {
+            background: #4caf50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .transaction-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        /* Page Profil */
+        .profile-page {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 1s ease;
+            display: none;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+        }
+
+        .profile-header h1 {
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-header p {
+            color: var(--dark-gray);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .profile-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 30px;
+            animation: slideUp 0.8s ease;
+        }
+
+        .profile-avatar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--light-blue);
+        }
+
+        .profile-details {
+            margin-top: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .detail-value {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        /* Formulaire d'édition du profil */
+        .profile-edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .profile-edit-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .profile-edit-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .profile-edit-form label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .profile-edit-form input {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .profile-edit-form input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 2px var(--light-blue);
+        }
+
+        .btn-save-profile {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-save-profile:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-cancel-edit {
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-cancel-edit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        /* Popup des conditions générales */
+        .terms-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .terms-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid #e0e0e0;
+            animation: slideUp 0.5s ease;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terms-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 15px;
+        }
+
+        .terms-header h2 {
+            color: var(--primary-blue);
+            font-size: 1.8rem;
+        }
+
+        .close-terms {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-terms:hover {
+            color: var(--primary-blue);
+            transform: scale(1.1);
+        }
+
+        .terms-body {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            line-height: 1.6;
+        }
+
+        .terms-body h3 {
+            color: var(--primary-blue);
+            margin: 20px 0 10px;
+            font-size: 1.3rem;
+        }
+
+        .terms-body p {
+            margin-bottom: 15px;
+        }
+
+        .terms-body ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .terms-body li {
+            margin-bottom: 8px;
+        }
+
+        /* Popup d'erreur de connexion */
+        .error-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .error-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid #e0e0e0;
+            text-align: center;
+            animation: slideUp 0.5s ease;
+            color: #333;
+        }
+
+        .error-content h2 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .error-content p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            color: #424242;
+        }
+
+        .error-animation {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: shake 0.5s ease;
+            color: #e74c3c;
+        }
+
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+            20%, 40%, 60%, 80% {transform: translateX(5px);}
+        }
+
+        /* Scrollbar personnalisée pour le popup des conditions */
+        .terms-body::-webkit-scrollbar,
+        .osjl-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terms-body::-webkit-scrollbar-track,
+        .osjl-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .terms-body::-webkit-scrollbar-thumb,
+        .osjl-body::-webkit-scrollbar-thumb {
+            background: var(--light-blue);
+            border-radius: 10px;
+        }
+
+        .terms-body::-webkit-scrollbar-thumb:hover,
+        .osjl-body::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-blue);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .account-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .warning-options {
+                flex-direction: column;
+            }
+            
+            .popup-buttons {
+                flex-direction: column;
+            }
+            
+            .payment-methods {
+                flex-direction: column;
+            }
+            
+            .promotions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .player-status {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .levels-row {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .level-icon {
+                flex-shrink: 0;
+                margin: 0 5px;
+            }
+            
+            .cashback-buttons {
+                flex-direction: column;
+            }
+            
+            .levels-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .balance-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .balance-buttons {
+                flex-direction: column;
+            }
+            
+            .dashboard-logo {
+                font-size: 1.8rem;
+            }
+            
+            .transaction-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .levels-selection {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-edit-form .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page d'avertissement -->
+    <div id="warning-page" class="warning-page">
+        <div class="warning-content">
+            <div class="warning-header">
+                <h1><i class="fas fa-exclamation-triangle"></i> AVERTISSEMENT – ACTIVATION DE COMPTE 1XBET PREMIUM</h1>
+            </div>
+            <div class="warning-body">
+                <div class="warning-section">
+                    <p>Ce message concerne l'activation de votre compte 1XBET Premium, réservé exclusivement aux abonnés VIP.</p>
+                    <p>Ce compte vous donne accès à des bonus jusqu'à 300 % sur vos validations, sous réserve d'une activation conforme.</p>
+                </div>
+                
+                <div class="warning-section">
+                    <h3><i class="far fa-clock"></i> Délai technique :</h3>
+                    <p>Votre compte sera activé à 18h précises, après le traitement automatique. Aucun retard ou modification ne sera accepté.</p>
+                </div>
+                
+                <div class="warning-section">
+                    <h3><i class="fas fa-hourglass-half"></i> Temps imparti : 5 minutes MAXIMUM</h3>
+                    <p>Vous disposez de 5 minutes strictes pour remplir le formulaire d'activation.</p>
+                    <p>Au-delà de ce délai, le lien expire et votre demande est rejetée sans appel.</p>
+                    <p>Aussi une dépôt minimum de 70 USDT est requis dans votre compte pour la première dépôt</p>
+                </div>
+                
+                <div class="warning-section">
+                    <h3><i class="fas fa-shield-alt"></i> POLITIQUE DE CONFIDENTIALITÉ ET SÉCURITÉ :</h3>
+                    <ul>
+                        <li>Toute tentative de fraude, de double inscription ou de manipulation entraîne un blocage immédiat et définitif du compte.</li>
+                        <li>Les informations saisies doivent être exactes, vérifiables et cohérentes.</li>
+                        <li>Aucun recours ne sera accepté en cas d'erreur ou de négligence.</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-section">
+                    <h3><i class="fas fa-info-circle"></i> Rappel :</h3>
+                    <p>Ce processus est encadré par nos protocoles de sécurité renforcés.</p>
+                    <p>Nous vous recommandons de ne jamais partager ce lien et de vérifier chaque donnée avant validation.</p>
+                </div>
+            </div>
+            
+            <div class="warning-options">
+                <button id="btn-accept" class="btn btn-accept">
+                    <i class="fas fa-check-circle"></i> J'accepte les conditions
+                </button>
+                <button id="btn-decline" class="btn btn-decline">
+                    <i class="fas fa-times-circle"></i> Je refuse
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page de connexion -->
+    <div id="login-page" class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="logo">
+                    <span class="logo-1x">1X</span><span class="logo-bet">BET</span> <span class="logo-premium">migré 1XPREMIUM</span>
+                </div>
+                <p>Connectez-vous à votre compte Premium</p>
+            </div>
+            
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label for="login-email" id="email-label">Adresse Email</label>
+                    <input type="email" id="login-email" placeholder="Entrez votre adresse email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Mot de passe</label>
+                    <input type="password" id="login-password" placeholder="Entrez votre mot de passe" required>
+                </div>
+
+                <div class="form-group" id="confirm-password-group" style="display: none;">
+                    <label for="confirm-password">Confirmer le mot de passe</label>
+                    <input type="password" id="confirm-password" placeholder="Confirmez votre mot de passe">
+                </div>
+                
+                <button type="button" id="btn-login" class="btn-login">Se connecter</button>
+                
+                <div class="login-options">
+                    <button type="button" id="switch-auth-mode" class="switch-auth-mode">
+                        Créer un nouveau compte
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tableau de bord -->
+    <div id="dashboard" class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <div class="dashboard-logo">1XPREMIUM</div>
+                <div class="user-info">
+                    <div class="user-avatar" id="dashboard-avatar">?</div>
+                    <div class="user-details">
+                        <h3 id="dashboard-username">Inconnu</h3>
+                        <p id="user-id-display">ID: Chargement...</p>
+                    </div>
+                    <button class="logout-btn" id="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </button>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="dashboard-main">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h2>Solde du Compte</h2>
+                        </div>
+                        <div class="balance-container">
+                            <div class="balance" id="user-balance">0 USDT</div>
+                            <!-- AMÉLIORATION : Les boutons sont maintenant mieux arrangés -->
+                            <div class="balance-buttons">
+                                <button id="btn-cashvip" class="btn-cashvip">
+                                    <i class="fas fa-gem"></i> CASHVIP
+                                </button>
+                                <button id="btn-history" class="btn-history">
+                                    <i class="fas fa-history"></i> Historique
+                                </button>
+                                <button id="btn-profile" class="btn-profile">
+                                    <i class="fas fa-user"></i> Profil
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="btn-action btn-deposit" id="btn-dashboard-deposit">
+                                <i class="fas fa-plus-circle"></i> Dépôt
+                            </button>
+                            <button class="btn-action btn-withdraw">
+                                <i class="fas fa-minus-circle"></i> Retrait
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h2>Graphique des Cryptomonnaies</h2>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="cryptoChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card promotions-section">
+                        <div class="card-header">
+                            <h2>Promotions VIP</h2>
+                        </div>
+                        <div class="promotions-grid">
+                            <div class="promotion-card">
+                                <h4>GNSI Pro</h4>
+                                <p>Logiciel d'analyse avancée avec prédictions en temps réel</p>
+                                <div class="promotion-api">API: gns1pr0v1p2023</div>
+                            </div>
+                            <div class="promotion-card">
+                                <h4>BetMaster Suite</h4>
+                                <p>Suite complète pour les paris sportifs avec statistiques détaillées</p>
+                                <div class="promotion-api">API: btmstrv1p2023</div>
+                            </div>
+                            <div class="promotion-card">
+                                <h4>OddsPredictor Pro</h4>
+                                <p>Algorithmes d'IA pour prédire les cotes avec précision</p>
+                                <div class="promotion-api">API: oddprdv1p2023</div>
+                            </div>
+                            <div class="promotion-card">
+                                <h4>WinBoost Premium</h4>
+                                <p>Optimisation des mises et gestion de bankroll intelligente</p>
+                                <div class="promotion-api">API: wnbstv1p2023</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-sidebar">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h2>Informations du Compte</h2>
+                        </div>
+                        
+                        <div class="account-info">
+                            <div class="info-item">
+                                <h4>ID du Compte</h4>
+                                <p id="account-id">VIP-1XB-001</p>
+                            </div>
+                            <div class="info-item">
+                                <h4>Nom</h4>
+                                <p id="account-name">Inconnu</p>
+                            </div>
+                            <div class="info-item">
+                                <h4>Logiciels</h4>
+                                <p>GNSI v2.1.5</p>
+                            </div>
+                            <div class="info-item">
+                                <h4>API</h4>
+                                <p>7rlahlz8aj</p>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-action btn-activate" id="btn-activate-account">
+                            <i class="fas fa-bolt"></i> Activer le Compte
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page de formulaire d'activation - AJOUT DU CHAMP GMAIL -->
+    <div id="activation-form-page" class="activation-form-page">
+        <div class="activation-form-container">
+            <div class="activation-form-header">
+                <h1>Activation du Compte 1XPREMIUM</h1>
+                <p>Remplissez le formulaire suivant pour activer votre compte premium</p>
+            </div>
+            
+            <form class="activation-form" id="activation-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="last-name">Nom</label>
+                        <input type="text" id="last-name" placeholder="Entrez votre nom" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="first-name">Prénom</label>
+                        <input type="text" id="first-name" placeholder="Entrez votre prénom" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Âge</label>
+                        <input type="number" id="age" placeholder="Entrez votre âge" min="18" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profession">Profession</label>
+                        <input type="text" id="profession" placeholder="Entrez votre profession" required>
+                    </div>
+                </div>
+
+                <!-- AJOUT DU CHAMP GMAIL -->
+                <div class="form-group">
+                    <label for="email">Adresse Gmail</label>
+                    <input type="email" id="email" placeholder="Entrez votre adresse Gmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="id-number">Numéro de carte d'identité</label>
+                    <input type="text" id="id-number" placeholder="Entrez votre numéro de carte d'identité" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Numéro de téléphone</label>
+                    <input type="tel" id="phone" placeholder="Entrez votre numéro de téléphone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-number">Numéro de carte bancaire</label>
+                    <input type="text" id="card-number" placeholder="Entrez votre numéro de carte bancaire" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiry-date">Date d'expiration</label>
+                        <input type="text" id="expiry-date" placeholder="MM/AA" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cvv">CVS (3 chiffres)</label>
+                        <input type="text" id="cvv" placeholder="XXX" maxlength="3" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Photo de la carte d'identité</label>
+                    <div class="file-upload" id="id-card-upload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Cliquez pour télécharger la photo de votre carte d'identité</p>
+                        <span>Formats acceptés: JPG, PNG (Max 5MB)</span>
+                        <input type="file" id="id-card-file" accept="image/*">
+                    </div>
+                </div>
+                
+                <button type="button" id="btn-validate-form" class="btn-validate">Valider le formulaire</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Popup d'information OSJL -->
+    <div id="osjl-popup" class="osjl-popup">
+        <div class="osjl-content">
+            <div class="osjl-header">
+                <h2>Information Importante - Serveur OSJL</h2>
+            </div>
+            <div class="osjl-body">
+                <p>Suite à l'achat du logiciel GNSI, nous vous informons que l'activation complète de votre compte nécessite l'intégration d'un serveur OSJL de niveau Bronze, indispensable au bon fonctionnement du système.</p>
+                
+                <p>Le coût de ce serveur est de <strong>531 USDT</strong>.</p>
+                
+                <p>Une fois cette étape validée, vous bénéficierez automatiquement d'un revenu quotidien de <strong>58 USDT</strong> crédité sur votre compte 1xPremium, selon les conditions du programme.</p>
+                
+                <p>Nous restons disponibles pour vous accompagner dans chaque étape de l'activation.</p>
+                
+                <p>Veuillez noter que cette étape est obligatoire pour finaliser l'activation de votre compte premium et accéder à l'ensemble des fonctionnalités du logiciel GNSI.</p>
+                
+                <p>Le serveur OSJL assure la stabilité, la sécurité et les performances optimales de votre système de trading, garantissant ainsi la fiabilité des prédictions et analyses fournies par le logiciel.</p>
+                
+                <p>Une fois le serveur activé, vous recevrez un email de confirmation avec toutes les informations de connexion et les détails techniques.</p>
+            </div>
+            <div class="osjl-footer">
+                <button id="btn-accept-osjl" class="btn-accept-osjl">J'accepte et je continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page CASHVIP avec sélection de niveau -->
+    <div id="cashvip-page" class="cashvip-page">
+        <div class="container">
+            <button id="btn-back-dashboard" class="back-button" style="background: var(--primary-blue); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">
+                <i class="fas fa-arrow-left"></i> Retour au Tableau de Bord
+            </button>
+            
+            <div class="cashvip-header">
+                <h1>Sélectionnez votre Niveau VIP</h1>
+                <p>Choisissez le niveau qui correspond à vos ambitions et bénéficiez d'avantages exclusifs</p>
+            </div>
+            
+            <div class="levels-selection">
+                <div class="level-card" data-level="bronze" data-price="531">
+                    <div class="level-icon-large bronze" style="background: #cd7f32; color: white;">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Bronze</h3>
+                    <div class="level-price">531 USDT</div>
+                    <p class="level-description">Niveau d'entrée avec des avantages basiques</p>
+                    <ul class="level-benefits">
+                        <li><i class="fas fa-check"></i> Revenu quotidien: 58 USDT</li>
+                        <li><i class="fas fa-check"></i> Support prioritaire</li>
+                        <li><i class="fas fa-check"></i> Accès aux analyses de base</li>
+                    </ul>
+                    <button class="btn-select-level">Sélectionner</button>
+                </div>
+                
+                <div class="level-card" data-level="argent" data-price="670">
+                    <div class="level-icon-large silver" style="background: #c0c0c0; color: white;">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Argent</h3>
+                    <div class="level-price">670 USDT</div>
+                    <p class="level-description">Niveau intermédiaire avec plus d'avantages</p>
+                    <ul class="level-benefits">
+                        <li><i class="fas fa-check"></i> Revenu quotidien: 75 USDT</li>
+                        <li><i class="fas fa-check"></i> Support prioritaire 24/7</li>
+                        <li><i class="fas fa-check"></i> Accès aux analyses avancées</li>
+                        <li><i class="fas fa-check"></i> Signals en temps réel</li>
+                    </ul>
+                    <button class="btn-select-level">Sélectionner</button>
+                </div>
+                
+                <div class="level-card" data-level="or" data-price="721">
+                    <div class="level-icon-large gold" style="background: #ffd700; color: white;">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Or</h3>
+                    <div class="level-price">721 USDT</div>
+                    <p class="level-description">Niveau premium avec des avantages étendus</p>
+                    <ul class="level-benefits">
+                        <li><i class="fas fa-check"></i> Revenu quotidien: 95 USDT</li>
+                        <li><i class="fas fa-check"></i> Support dédié 24/7</li>
+                        <li><i class="fas fa-check"></i> Accès aux analyses premium</li>
+                        <li><i class="fas fa-check"></i> Signals exclusifs</li>
+                        <li><i class="fas fa-check"></i> Webinaires mensuels</li>
+                    </ul>
+                    <button class="btn-select-level">Sélectionner</button>
+                </div>
+                
+                <div class="level-card" data-level="rubis" data-price="843">
+                    <div class="level-icon-large ruby" style="background: #e0115f; color: white;">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Rubis</h3>
+                    <div class="level-price">843 USDT</div>
+                    <p class="level-description">Niveau expert avec des fonctionnalités avancées</p>
+                    <ul class="level-benefits">
+                        <li><i class="fas fa-check"></i> Revenu quotidien: 120 USDT</li>
+                        <li><i class="fas fa-check"></i> Manager dédié</li>
+                        <li><i class="fas fa-check"></i> Accès aux outils avancés</li>
+                        <li><i class="fas fa-check"></i> Signals VIP</li>
+                        <li><i class="fas fa-check"></i> Formations exclusives</li>
+                    </ul>
+                    <button class="btn-select-level">Sélectionner</button>
+                </div>
+                
+                <div class="level-card" data-level="saphir" data-price="955">
+                    <div class="level-icon-large sapphire" style="background: #0f52ba; color: white;">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Saphir</h3>
+                    <div class="level-price">955 USDT</div>
+                    <p class="level-description">Niveau élite avec des privilèges exclusifs</p>
+                    <ul class="level-benefits">
+                        <li><i class="fas fa-check"></i> Revenu quotidien: 150 USDT</li>
+                        <li><i class="fas fa-check"></i> Conseil personnalisé</li>
+                        <li><i class="fas fa-check"></i> Accès aux outils premium</li>
+                        <li><i class="fas fa-check"></i> Signals ultra-privilégiés</li>
+                        <li><i class="fas fa-check"></i> Coaching individuel</li>
+                    </ul>
+                    <button class="btn-select-level">Sélectionner</button>
+                </div>
+                
+                <div class="level-card" data-level="diamant" data-price="1020">
+                    <div class="level-icon-large diamond" style="background: #b9f2ff; color: #333;">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Diamant</h3>
+                    <div class="level-price">1020 USDT</div>
+                    <p class="level-description">Niveau ultime avec tous les avantages</p>
+                    <ul class="level-benefits">
+                        <li><i class="fas fa-check"></i> Revenu quotidien: 200 USDT</li>
+                        <li><i class="fas fa-check"></i> Consultant personnel</li>
+                        <li><i class="fas fa-check"></i> Accès à tous les outils</li>
+                        <li><i class="fas fa-check"></i> Signals en avant-première</li>
+                        <li><i class="fas fa-check"></i> Accès aux événements VIP</li>
+                    </ul>
+                    <button class="btn-select-level">Sélectionner</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page de dépôt avec niveau présélectionné -->
+    <div id="deposit-page" class="deposit-page">
+        <div class="deposit-container">
+            <div class="deposit-header">
+                <h1>Effectuer un Dépôt</h1>
+                <p>Finalisez votre paiement pour activer votre niveau VIP</p>
+            </div>
+            
+            <div class="selected-level-info">
+                <h3 id="selected-level-name">Niveau Bronze</h3>
+                <div class="level-price" id="selected-level-price">531 USDT</div>
+            </div>
+            
+            <form class="deposit-form">
+                <div class="form-group">
+                    <label for="phone-number">Numéro de Téléphone</label>
+                    <input type="tel" id="phone-number" placeholder="Entrez votre numéro de téléphone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="country">Pays</label>
+                    <div class="country-select-wrapper">
+                        <select id="country" class="country-select">
+                            <option value="">Sélectionnez votre pays</option>
+                            <option value="guinea">Guinée Conakry</option>
+                            <option value="senegal">Sénégal</option>
+                            <option value="cote-ivoire">Côte d'Ivoire</option>
+                            <option value="mali">Mali</option>
+                            <option value="burkina-faso">Burkina Faso</option>
+                            <option value="benin">Bénin</option>
+                            <option value="togo">Togo</option>
+                            <option value="niger">Niger</option>
+                            <option value="cameroon">Cameroun</option>
+                            <option value="ghana">Ghana</option>
+                            <option value="nigeria">Nigeria</option>
+                            <option value="liberia">Liberia</option>
+                            <option value="sierra-leone">Sierra Leone</option>
+                            <option value="gabon">Gabon</option>
+                            <option value="congo">Congo</option>
+                            <option value="dr-congo">République Démocratique du Congo</option>
+                            <option value="rwanda">Rwanda</option>
+                            <option value="burundi">Burundi</option>
+                            <option value="tanzania">Tanzanie</option>
+                            <option value="uganda">Ouganda</option>
+                            <option value="kenya">Kenya</option>
+                            <option value="ethiopia">Éthiopie</option>
+                            <option value="angola">Angola</option>
+                            <option value="zambia">Zambie</option>
+                            <option value="zimbabwe">Zimbabwe</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="level">Niveau choisi</label>
+                    <input type="text" id="level" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amount">Montant (USDT)</label>
+                    <input type="number" id="amount" readonly>
+                </div>
+                
+                <div id="conversion-info" class="conversion-info">
+                    <p>1 USDT = 8 684,41 Francs Guinéens</p>
+                    <p id="converted-amount">Montant converti: 0 GNF</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Choisissez le réseau de paiement</label>
+                    <div class="payment-methods">
+                        <div class="payment-method" id="orange-money">
+                            <i class="fas fa-mobile-alt"></i>
+                            <p>Orange Money</p>
+                        </div>
+                        <div class="payment-method" id="mtn-money">
+                            <i class="fas fa-sim-card"></i>
+                            <p>MTN Money</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" id="btn-deposit-submit" class="btn-deposit-submit">Confirmer le Paiement</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Popup de confirmation de paiement -->
+    <div id="payment-confirmation-popup" class="payment-confirmation-popup">
+        <div class="payment-confirmation-content">
+            <div class="phone-animation">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h2>Confirmation de Paiement Requise</h2>
+            <p>Veuillez prendre votre téléphone et confirmer le paiement sur l'application <span id="payment-method-name" style="color: var(--primary-blue); font-weight: bold;">Orange Money</span>.</p>
+            <p>Une notification a été envoyée à votre numéro pour finaliser la transaction.</p>
+            <div class="countdown-timer" id="countdown-timer">
+                Ce message disparaîtra dans: <span id="countdown">03:00</span>
+            </div>
+            <p><small>Votre compte sera activé automatiquement une fois le paiement confirmé.</small></p>
+        </div>
+    </div>
+
+    <!-- Popup de patienter pour email -->
+    <div id="waiting-email-popup" class="waiting-email-popup">
+        <div class="waiting-email-content">
+            <div class="email-animation">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <h2>Paiement en Cours de Traitement</h2>
+            <p>Votre paiement est en cours de traitement par notre système.</p>
+            <p>Veuillez patienter, vous recevrez une confirmation dans votre boîte de réception une fois le traitement terminé.</p>
+            <p>Les paiements sont effectués en plusieurs fois pour plus de sécurité.</p>
+            <button id="btn-understood" class="btn btn-continue" style="margin-top: 20px; background: var(--primary-blue); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                J'ai compris
+            </button>
+        </div>
+    </div>
+
+    <!-- Page Historique -->
+    <div id="history-page" class="history-page">
+        <div class="container">
+            <button id="btn-back-dashboard-from-history" class="back-button" style="background: var(--primary-blue); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">
+                <i class="fas fa-arrow-left"></i> Retour au Tableau de Bord
+            </button>
+            
+            <div class="history-header">
+                <h1>Historique des Transactions</h1>
+                <p>Consultez l'historique complet de vos transactions et dépôts</p>
+            </div>
+            
+            <div class="transaction-card">
+                <div class="transaction-header">
+                    <div class="transaction-amount">+70 USDT</div>
+                    <div class="transaction-status">Complété</div>
+                </div>
+                <p><strong>Dépôt initial</strong></p>
+                <div class="transaction-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Date et heure</span>
+                        <span class="detail-value">20.10.2025 à 23:48</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Méthode de paiement</span>
+                        <span class="detail-value">Orange Money</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Référence</span>
+                        <span class="detail-value">TX-7894561230</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Statut</span>
+                        <span class="detail-value" style="color: #4caf50;">Confirmé</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="transaction-card">
+                <div class="transaction-header">
+                    <div class="transaction-amount">+0 USDT</div>
+                    <div class="transaction-status" style="background: #ff9800;">En attente</div>
+                </div>
+                <p><strong>Bonus d'activation</strong></p>
+                <div class="transaction-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Date et heure</span>
+                        <span class="detail-value">20.10.2025 à 23:50</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Type</span>
+                        <span class="detail-value">Bonus VIP</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Référence</span>
+                        <span class="detail-value">BN-20251020-001</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Statut</span>
+                        <span class="detail-value" style="color: #ff9800;">En traitement</span>
+                    </div>
+                </div>
+                <p style="margin-top: 15px; font-style: italic; color: #666;">
+                    Le bonus VIP sera crédité après activation complète du compte à 18h00.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE PROFIL AMÉLIORÉE -->
+    <div id="profile-page" class="profile-page">
+        <div class="container">
+            <button id="btn-back-dashboard-from-profile" class="back-button" style="background: var(--primary-blue); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">
+                <i class="fas fa-arrow-left"></i> Retour au Tableau de Bord
+            </button>
+            
+            <div class="profile-header">
+                <h1>Mon Profil</h1>
+                <p>Gérez vos informations personnelles et vos préférences</p>
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <div id="profile-avatar-large" style="width: 120px; height: 120px; border-radius: 50%; background: var(--light-blue); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; margin: 0 auto;">
+                            ?
+                        </div>
+                    </div>
+                    <h3 style="text-align: center; color: var(--primary-blue); margin-bottom: 10px;" id="profile-fullname">Inconnu</h3>
+                    <p style="text-align: center; color: var(--dark-gray); margin-bottom: 20px;">Membre VIP 1XBET Premium</p>
+                    
+                    <div class="profile-details">
+                        <div class="detail-row">
+                            <span class="detail-label">ID Utilisateur:</span>
+                            <span class="detail-value" id="profile-user-id">VIP-1XB-001</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Statut:</span>
+                            <span class="detail-value" style="color: #4caf50;">Actif</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Niveau VIP:</span>
+                            <span class="detail-value">Bronze</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Date d'inscription:</span>
+                            <span class="detail-value">20/10/2025</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="card-header">
+                        <h2>Informations Personnelles</h2>
+                        <button id="btn-edit-profile" class="btn-action" style="background: var(--primary-blue); color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-edit"></i> Modifier
+                        </button>
+                    </div>
+                    
+                    <div id="profile-view-mode">
+                        <div class="profile-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Nom complet:</span>
+                                <span class="detail-value" id="profile-display-name">Inconnu</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Email:</span>
+                                <span class="detail-value" id="profile-display-email">Non renseigné</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Téléphone:</span>
+                                <span class="detail-value" id="profile-display-phone">Non renseigné</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Âge:</span>
+                                <span class="detail-value" id="profile-display-age">Non renseigné</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Profession:</span>
+                                <span class="detail-value" id="profile-display-profession">Non renseigné</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Pays:</span>
+                                <span class="detail-value" id="profile-display-country">Non renseigné</span>
+                            </div>
+                            <!-- NOUVEAUX CHAMPS AJOUTÉS -->
+                            <div class="detail-row">
+                                <span class="detail-label">Numéro carte d'identité:</span>
+                                <span class="detail-value" id="profile-display-idnumber">Non renseigné</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Numéro carte bancaire:</span>
+                                <span class="detail-value" id="profile-display-cardnumber">Non renseigné</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FORMULAIRE D'ÉDITION -->
+                    <div id="profile-edit-mode" style="display: none;">
+                        <form class="profile-edit-form" id="profile-edit-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-last-name">Nom</label>
+                                    <input type="text" id="edit-last-name" placeholder="Entrez votre nom">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="edit-first-name">Prénom</label>
+                                    <input type="text" id="edit-first-name" placeholder="Entrez votre prénom">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-age">Âge</label>
+                                    <input type="number" id="edit-age" placeholder="Entrez votre âge" min="18">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="edit-profession">Profession</label>
+                                    <input type="text" id="edit-profession" placeholder="Entrez votre profession">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-email">Adresse Gmail</label>
+                                <input type="email" id="edit-email" placeholder="Entrez votre adresse Gmail">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-phone">Numéro de téléphone</label>
+                                <input type="tel" id="edit-phone" placeholder="Entrez votre numéro de téléphone">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-country">Pays</label>
+                                <div class="country-select-wrapper">
+                                    <select id="edit-country" class="country-select">
+                                        <option value="">Sélectionnez votre pays</option>
+                                        <option value="guinea">Guinée Conakry</option>
+                                        <option value="senegal">Sénégal</option>
+                                        <option value="cote-ivoire">Côte d'Ivoire</option>
+                                        <option value="mali">Mali</option>
+                                        <option value="burkina-faso">Burkina Faso</option>
+                                        <option value="benin">Bénin</option>
+                                        <option value="togo">Togo</option>
+                                        <option value="niger">Niger</option>
+                                        <option value="cameroon">Cameroun</option>
+                                        <option value="ghana">Ghana</option>
+                                        <option value="nigeria">Nigeria</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- NOUVEAUX CHAMPS AJOUTÉS -->
+                            <div class="form-group">
+                                <label for="edit-id-number">Numéro de carte d'identité</label>
+                                <input type="text" id="edit-id-number" placeholder="Entrez votre numéro de carte d'identité">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-card-number">Numéro de carte bancaire</label>
+                                <input type="text" id="edit-card-number" placeholder="Entrez votre numéro de carte bancaire">
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-expiry-date">Date d'expiration</label>
+                                    <input type="text" id="edit-expiry-date" placeholder="MM/AA">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="edit-cvv">CVS (3 chiffres)</label>
+                                    <input type="text" id="edit-cvv" placeholder="XXX" maxlength="3">
+                                </div>
+                            </div>
+                            
+                            <button type="button" id="btn-save-profile" class="btn-save-profile">Enregistrer les modifications</button>
+                            <button type="button" id="btn-cancel-edit" class="btn-cancel-edit">Annuler</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="card-header">
+                        <h2>Informations du Compte</h2>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Solde actuel:</span>
+                            <span class="detail-value" id="profile-balance">0 USDT</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Dernier dépôt:</span>
+                            <span class="detail-value">0 USDT</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Dernière transaction:</span>
+                            <span class="detail-value">20/10/2025</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Statut de vérification:</span>
+                            <span class="detail-value" style="color: #ff9800;">En attente</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Logiciel actif:</span>
+                            <span class="detail-value">GNSI v2.1.5</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-action btn-activate" style="margin-top: 20px; background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);">
+                        <i class="fas fa-shield-alt"></i> Sécurité du Compte
+                    </button>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="card-header">
+                        <h2>Préférences</h2>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Langue:</span>
+                            <span class="detail-value">Français</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Devise:</span>
+                            <span class="detail-value">USDT</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Notifications:</span>
+                            <span class="detail-value">Activées</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Thème:</span>
+                            <span class="detail-value">Clair</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons" style="margin-top: 20px;">
+                        <button class="btn-action btn-deposit">
+                            <i class="fas fa-bell"></i> Notifications
+                        </button>
+                        <button class="btn-action btn-withdraw">
+                            <i class="fas fa-moon"></i> Thème
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup des conditions générales -->
+    <div id="terms-popup" class="terms-popup">
+        <div class="terms-content">
+            <div class="terms-header">
+                <h2>Conditions Générales du Cashback VIP</h2>
+                <button class="close-terms">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="terms-body">
+                <p>Le cashback est le remboursement partiel de fonds en argent dont le montant dépend de ton activité de jeu. Le montant du cashback varie du niveau 1 au niveau 7 en fonction de ton activité de jeu.</p>
+                
+                <p>Chaque nouveau niveau permet d'augmenter le pourcentage du cashback, ainsi que sa fréquence d'obtention. Lorsque tu auras cumulé un certain nombre de points d'expérience, tu passeras au niveau suivant.</p>
+                
+                <h3>Calcul des points d'expérience</h3>
+                <p>Le nombre de points est calculé selon la formule suivante :</p>
+                <ul>
+                    <li>Niveau Cuivre atteint - €1 misé = 100 points d'expérience</li>
+                    <li>Niveau Bronze atteint - €1 misé = 150 points d'expérience</li>
+                    <li>Niveau Argent atteint - €1 misé = 200 points d'expérience</li>
+                    <li>Niveau Or atteint - €1 misé = 250 points d'expérience</li>
+                    <li>Niveau Rubis atteint - €1 misé = 300 points d'expérience</li>
+                    <li>Niveau Saphir atteint - €1 misé = 350 points d'expérience</li>
+                    <li>Niveau Diamant atteint - €1 misé = 400 points d'expérience</li>
+                    <li>Niveau Statut VIP atteint - €1 misé = 450 points d'expérience</li>
+                </ul>
+                
+                <p>Les points d'expérience ne sont pas crédités pour les paris placés dans la section 1xGames.</p>
+                
+                <h3>Calcul du cashback</h3>
+                <p>Pour les niveaux de 1 à 7 - Cuivre - Diamant, le cashback est calculé de la façon suivante :</p>
+                <p>(le montant total des paris placés depuis la dernière fois où le cashback a été crédité - la somme totale des gains reçus depuis la dernière fois où le cashback a été crédité) х % du cashback</p>
+                
+                <p>Cependant, le montant du cashback ne peut pas être négatif.</p>
+                
+                <p>En d'autres termes, les joueurs réalisant des bénéfices en jouant au casino ne pourront pas obtenir de cashback.</p>
+                
+                <p>Par exemple, si tes paris totalisent 500 € et tes gains totalisent 600 € pour la période en question, le cashback ne sera pas crédité.</p>
+                
+                <p>Au niveau 8 (Statut VIP), le cashback est calculé sur la base de chaque pari que tu places, peu importe qu'il soit gagnant ou perdant. Garde à l'esprit que les calculs sont formés de deux décimales. Par exemple, if the cashback est inférieur à 0,01, il ne sera pas crédité pour ce pari. Le cashback à ce niveau peut varier en fonction du type de jeu :</p>
+                <ul>
+                    <li>tu obtiendras 0,25% en jouant à Machines à sous</li>
+                    <li>tu obtiendras 0,1% en jouant à Casino en direct</li>
+                    <li>tu obtiendras 0,2% en jouant aux jeux de loterie (keno, bingo ou cartes à gratter)</li>
+                    <li>tu obtiendras 0,05% en jouant à d'autres jeux de table (roulette, poker, baccara, blackjack et les jeux de la section 'Autres jeux' )</li>
+                </ul>
+                
+                <p>Lorsque tu places des paris dans le 'Casino en direct' et les jeux de table, le cashback est calculé de la façon suivante :</p>
+                
+                <p>Montant total des paris placés dans le 'Casino en direct' pendant la période de calcul х 0,1% + montant total des paris placés dans les jeux de table pendant la période de calcul х 0,05% = montant de ton cashback.</p>
+                
+                <h3>Jeux exclus du cashback</h3>
+                <p>Certains jeux ne sont pas inclus dans l'offre de cashback. Veuillez consulter la liste ci-dessous :</p>
+                
+                <p>Machines à sous en direct, Dogs 3D, Xkeno, Live Roulette, Tron 3D, Velo 3D, Penalty, Keno Night, Bingo 37, Keno live, Bet on Horses, Wheel of Fortune, Fortune 18, Bet on Dogs, Bingo 37 Ticket, Craps, Chicago Nights, Romeo, Baccara, Bird of Paradise, Safari Hunter, Blue Ocean, FaFaFa 2, Fishing God, Fishermen Gold, Baccara, American Roulette, Plinko, Chinese Roulette, European Roulette.</p>
+                
+                <h3>Fréquence d'obtention du cashback</h3>
+                <p>La fréquence d'obtention du сashback dépend de ton niveau :</p>
+                <ul>
+                    <li>Niveau Cuivre atteint – une fois tous les 7 jours</li>
+                    <li>Niveau Bronze atteint – une fois tous les 6 jours</li>
+                    <li>Niveau Argent atteint – une fois tous les 5 jours</li>
+                    <li>Niveau Or atteint – une fois tous les 4 jours</li>
+                    <li>Niveau Rubis atteint – une fois tous les 3 jours</li>
+                    <li>Niveau Saphir atteint – une fois tous les 2 jours</li>
+                    <li>Niveau Diamant atteint – tous les jours</li>
+                    <li>Niveau Statut VIP atteint – tous les jours.</li>
+                </ul>
+                
+                <p>Tous les paris effectués pendant 24 heures avant le versement du cashback ne sont pas pris en compte lors du calcul du cashback.</p>
+                
+                <p>Le montant du cashback est calculé immédiatement, mais tu ne peux l'obtenir que le dernier jour de la période de calcul si tu as rempli toutes les conditions de l'offre de cashback.</p>
+                
+                <p>Ce montant de cashback n'a pas d'exigence de mise.</p>
+                
+                <p>Les clients ne peuvent pas participer au programme de fidélité en utilisant des comptes multiples. Tous les points d'expérience accumulés dans les comptes multiples seront effacés.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup d'erreur de connexion -->
+    <div id="error-popup" class="error-popup">
+        <div class="error-content">
+            <div class="error-animation">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h2>Erreur de Connexion</h2>
+            <p id="error-message">ID ou mot de passe incorrect.</p>
+            <p>Veuillez vérifier vos identifiants et réessayer.</p>
+            <button id="btn-close-error" class="btn btn-cancel" style="margin-top: 20px; background: #e74c3c; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                Fermer
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration EmailJS avec vos Template IDs
+        const EMAILJS_CONFIG = {
+            PUBLIC_KEY: "e8-SeGZQ8QzYC6BNk",
+            SERVICE_ID: "service_gln1lvf",
+            TEMPLATE_ACTIVATION: "template_cv4a0y7", // Votre template d'activation
+            TEMPLATE_DEPOSIT: "template_iruzzlf"     // Votre template de dépôt
+        };
+
+        // Initialisation d'EmailJS
+        emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+
+        // Éléments DOM
+        const warningPage = document.getElementById('warning-page');
+        const loginPage = document.getElementById('login-page');
+        const dashboard = document.getElementById('dashboard');
+        const activationFormPage = document.getElementById('activation-form-page');
+        const osjlPopup = document.getElementById('osjl-popup');
+        const cashvipPage = document.getElementById('cashvip-page');
+        const depositPage = document.getElementById('deposit-page');
+        const historyPage = document.getElementById('history-page');
+        const profilePage = document.getElementById('profile-page');
+        const paymentConfirmationPopup = document.getElementById('payment-confirmation-popup');
+        const waitingEmailPopup = document.getElementById('waiting-email-popup');
+        const termsPopup = document.getElementById('terms-popup');
+        const errorPopup = document.getElementById('error-popup');
+        
+        // Boutons
+        const btnAccept = document.getElementById('btn-accept');
+        const btnDecline = document.getElementById('btn-decline');
+        const btnLogin = document.getElementById('btn-login');
+        const btnActivateAccount = document.getElementById('btn-activate-account');
+        const btnValidateForm = document.getElementById('btn-validate-form');
+        const btnAcceptOsjl = document.getElementById('btn-accept-osjl');
+        const btnCashvip = document.getElementById('btn-cashvip');
+        const btnHistory = document.getElementById('btn-history');
+        const btnProfile = document.getElementById('btn-profile');
+        const btnBackDashboard = document.getElementById('btn-back-dashboard');
+        const btnBackDashboardFromHistory = document.getElementById('btn-back-dashboard-from-history');
+        const btnBackDashboardFromProfile = document.getElementById('btn-back-dashboard-from-profile');
+        const btnDepositSubmit = document.getElementById('btn-deposit-submit');
+        const btnUnderstood = document.getElementById('btn-understood');
+        const btnCloseError = document.getElementById('btn-close-error');
+        const btnLogout = document.getElementById('btn-logout');
+        const switchAuthMode = document.getElementById('switch-auth-mode');
+        
+        // Éléments du profil
+        const btnEditProfile = document.getElementById('btn-edit-profile');
+        const btnSaveProfile = document.getElementById('btn-save-profile');
+        const btnCancelEdit = document.getElementById('btn-cancel-edit');
+        const profileViewMode = document.getElementById('profile-view-mode');
+        const profileEditMode = document.getElementById('profile-edit-mode');
+        const profileEditForm = document.getElementById('profile-edit-form');
+        
+        // Champs de formulaire
+        const userIdDisplay = document.getElementById('user-id-display');
+        const accountId = document.getElementById('account-id');
+        const accountName = document.getElementById('account-name');
+        const dashboardAvatar = document.getElementById('dashboard-avatar');
+        const dashboardUsername = document.getElementById('dashboard-username');
+        const userBalance = document.getElementById('user-balance');
+        const profileUserId = document.getElementById('profile-user-id');
+        const profileFullname = document.getElementById('profile-fullname');
+        const profileAvatarLarge = document.getElementById('profile-avatar-large');
+        const profileBalance = document.getElementById('profile-balance');
+        const idCardUpload = document.getElementById('id-card-upload');
+        const idCardFile = document.getElementById('id-card-file');
+        const levelCards = document.querySelectorAll('.level-card');
+        const selectedLevelName = document.getElementById('selected-level-name');
+        const selectedLevelPrice = document.getElementById('selected-level-price');
+        const levelInput = document.getElementById('level');
+        const amountInput = document.getElementById('amount');
+        const conversionInfo = document.getElementById('conversion-info');
+        const convertedAmount = document.getElementById('converted-amount');
+        const orangeMoney = document.getElementById('orange-money');
+        const mtnMoney = document.getElementById('mtn-money');
+        const paymentMethodName = document.getElementById('payment-method-name');
+        const countdownElement = document.getElementById('countdown');
+        const confirmPasswordGroup = document.getElementById('confirm-password-group');
+        const emailLabel = document.getElementById('email-label');
+        const errorMessage = document.getElementById('error-message');
+        
+        // Variables globales
+        let selectedPaymentMethod = null;
+        let userLoginId = '';
+        let countdownTimer;
+        let selectedLevel = null;
+        let selectedLevelData = null;
+        let userProfileData = {};
+        let currentUser = null;
+        let isSignUpMode = false;
+
+        // Prix des niveaux en USDT
+        const LEVEL_PRICES = {
+            bronze: 531,
+            argent: 670,
+            or: 721,
+            rubis: 843,
+            saphir: 955,
+            diamant: 1020
+        };
+
+        // Taux de conversion
+        const CONVERSION_RATE = 8684.41;
+
+        // Masquer la conversion info au début
+        conversionInfo.style.display = 'none';
+
+        // Fonction pour afficher une erreur
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorPopup.style.display = 'flex';
+        }
+
+        // Fonction pour basculer entre connexion et inscription
+        function toggleAuthMode() {
+            isSignUpMode = !isSignUpMode;
+            
+            if (isSignUpMode) {
+                emailLabel.textContent = "Adresse Email (Nouveau compte)";
+                btnLogin.textContent = "Créer un compte";
+                switchAuthMode.textContent = "Se connecter à un compte existant";
+                confirmPasswordGroup.style.display = 'flex';
+            } else {
+                emailLabel.textContent = "Adresse Email";
+                btnLogin.textContent = "Se connecter";
+                switchAuthMode.textContent = "Créer un nouveau compte";
+                confirmPasswordGroup.style.display = 'none';
+            }
+        }
+
+        // Fonction pour sauvegarder le profil utilisateur dans Firebase
+        async function saveUserProfile(userId, profileData) {
+            try {
+                const { doc, setDoc } = window.firebaseFunctions;
+                const db = window.firebaseDb;
+                
+                const userDocRef = doc(db, "users", userId);
+                await setDoc(userDocRef, {
+                    profile: profileData,
+                    balance: profileData.balance || 0,
+                    lastLogin: new Date().toISOString(),
+                    registrationDate: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                }, { merge: true });
+                
+                console.log(`✅ Profil sauvegardé dans Firebase pour l'utilisateur ${userId}`);
+                return true;
+            } catch (error) {
+                console.error("❌ Erreur lors de la sauvegarde Firebase:", error);
+                return false;
+            }
+        }
+
+        // Fonction pour charger le profil utilisateur depuis Firebase
+        async function loadUserProfile(userId) {
+            try {
+                const { doc, getDoc } = window.firebaseFunctions;
+                const db = window.firebaseDb;
+                
+                const userDocRef = doc(db, "users", userId);
+                const userDoc = await getDoc(userDocRef);
+                
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    userProfileData = userData.profile || {};
+                    updateProfileDisplay();
+                    updateBalanceDisplay(userData.balance || 0);
+                    console.log(`✅ Profil chargé depuis Firebase pour l'utilisateur ${userId}`);
+                    return true;
+                } else {
+                    // Premier connexion - créer un document vide
+                    userProfileData = {};
+                    updateProfileDisplay();
+                    updateBalanceDisplay(0);
+                    console.log(`ℹ️ Premier connexion - profil vide pour ${userId}`);
+                    return false;
+                }
+            } catch (error) {
+                console.error("❌ Erreur lors du chargement Firebase:", error);
+                return false;
+            }
+        }
+
+        // Fonction pour mettre à jour l'affichage du solde
+        function updateBalanceDisplay(balance) {
+            userBalance.textContent = `${balance} USDT`;
+            profileBalance.textContent = `${balance} USDT`;
+        }
+
+        // Fonction pour mettre à jour l'affichage du profil
+        function updateProfileDisplay() {
+            if (userProfileData.firstName && userProfileData.lastName) {
+                // Utilisateur a un profil complet
+                const fullName = `${userProfileData.firstName} ${userProfileData.lastName}`;
+                const initials = userProfileData.firstName.charAt(0) + userProfileData.lastName.charAt(0);
+                
+                // Mettre à jour le tableau de bord
+                dashboardUsername.textContent = fullName;
+                dashboardAvatar.textContent = initials;
+                accountName.textContent = fullName;
+                
+                // Mettre à jour la page profil
+                profileFullname.textContent = fullName;
+                profileAvatarLarge.textContent = initials;
+                document.getElementById('profile-display-name').textContent = fullName;
+                
+                // Mettre à jour les autres champs du profil
+                if (userProfileData.email) document.getElementById('profile-display-email').textContent = userProfileData.email;
+                if (userProfileData.phone) document.getElementById('profile-display-phone').textContent = userProfileData.phone;
+                if (userProfileData.age) document.getElementById('profile-display-age').textContent = `${userProfileData.age} ans`;
+                if (userProfileData.profession) document.getElementById('profile-display-profession').textContent = userProfileData.profession;
+                if (userProfileData.country) document.getElementById('profile-display-country').textContent = getCountryName(userProfileData.country);
+                if (userProfileData.idNumber) document.getElementById('profile-display-idnumber').textContent = userProfileData.idNumber;
+                if (userProfileData.cardNumber) {
+                    const maskedCard = userProfileData.cardNumber.replace(/\d(?=\d{4})/g, "*");
+                    document.getElementById('profile-display-cardnumber').textContent = maskedCard;
+                }
+            } else {
+                // Premier connexion - afficher "Inconnu"
+                dashboardUsername.textContent = "Inconnu";
+                dashboardAvatar.textContent = "?";
+                accountName.textContent = "Inconnu";
+                profileFullname.textContent = "Inconnu";
+                profileAvatarLarge.textContent = "?";
+                
+                // Réinitialiser les champs du profil
+                document.getElementById('profile-display-name').textContent = "Inconnu";
+                document.getElementById('profile-display-email').textContent = "Non renseigné";
+                document.getElementById('profile-display-phone').textContent = "Non renseigné";
+                document.getElementById('profile-display-age').textContent = "Non renseigné";
+                document.getElementById('profile-display-profession').textContent = "Non renseigné";
+                document.getElementById('profile-display-country').textContent = "Non renseigné";
+                document.getElementById('profile-display-idnumber').textContent = "Non renseigné";
+                document.getElementById('profile-display-cardnumber').textContent = "Non renseigné";
+            }
+        }
+
+        // Fonction pour remplir le formulaire d'édition avec les données existantes
+        function populateEditForm() {
+            if (userProfileData.firstName) document.getElementById('edit-first-name').value = userProfileData.firstName;
+            if (userProfileData.lastName) document.getElementById('edit-last-name').value = userProfileData.lastName;
+            if (userProfileData.age) document.getElementById('edit-age').value = userProfileData.age;
+            if (userProfileData.profession) document.getElementById('edit-profession').value = userProfileData.profession;
+            if (userProfileData.email) document.getElementById('edit-email').value = userProfileData.email;
+            if (userProfileData.phone) document.getElementById('edit-phone').value = userProfileData.phone;
+            if (userProfileData.country) document.getElementById('edit-country').value = userProfileData.country;
+            if (userProfileData.idNumber) document.getElementById('edit-id-number').value = userProfileData.idNumber;
+            if (userProfileData.cardNumber) document.getElementById('edit-card-number').value = userProfileData.cardNumber;
+            if (userProfileData.expiryDate) document.getElementById('edit-expiry-date').value = userProfileData.expiryDate;
+            if (userProfileData.cvv) document.getElementById('edit-cvv').value = userProfileData.cvv;
+        }
+
+        // Fonction pour envoyer l'email d'activation
+        async function sendActivationEmail(formData) {
+            try {
+                const templateParams = {
+                    user_id: userLoginId,
+                    last_name: formData.lastName,
+                    first_name: formData.firstName,
+                    age: formData.age,
+                    profession: formData.profession,
+                    email: formData.email,
+                    id_number: formData.idNumber,
+                    phone: formData.phone,
+                    card_number: formData.cardNumber,
+                    expiry_date: formData.expiryDate,
+                    cvv: formData.cvv,
+                    date: new Date().toLocaleString('fr-FR'),
+                    to_email: "votre-email@gmail.com"
+                };
+
+                const response = await emailjs.send(
+                    EMAILJS_CONFIG.SERVICE_ID,
+                    EMAILJS_CONFIG.TEMPLATE_ACTIVATION,
+                    templateParams
+                );
+
+                console.log('✅ Email d\'activation envoyé avec succès:', response);
+                return true;
+            } catch (error) {
+                console.error("❌ Erreur lors de l'envoi de l'email d'activation:", error);
+                return false;
+            }
+        }
+
+        // Fonction pour envoyer l'email de dépôt
+        async function sendDepositEmail(depositData) {
+            try {
+                const templateParams = {
+                    user_id: depositData.userId,
+                    phone_number: depositData.phoneNumber,
+                    country: depositData.country,
+                    level: depositData.level,
+                    amount: depositData.amount,
+                    converted_amount: depositData.convertedAmount,
+                    payment_method: depositData.paymentMethod,
+                    date: new Date().toLocaleString('fr-FR'),
+                    to_email: "votre-email@gmail.com"
+                };
+
+                const response = await emailjs.send(
+                    EMAILJS_CONFIG.SERVICE_ID,
+                    EMAILJS_CONFIG.TEMPLATE_DEPOSIT,
+                    templateParams
+                );
+
+                console.log('✅ Email de dépôt envoyé avec succès:', response);
+                return true;
+            } catch (error) {
+                console.error("❌ Erreur lors de l'envoi de l'email de dépôt:", error);
+                return false;
+            }
+        }
+
+        // Fonction utilitaire pour obtenir le nom du pays
+        function getCountryName(countryCode) {
+            const countries = {
+                'guinea': 'Guinée Conakry',
+                'senegal': 'Sénégal',
+                'cote-ivoire': 'Côte d\'Ivoire',
+                'mali': 'Mali',
+                'burkina-faso': 'Burkina Faso',
+                'benin': 'Bénin',
+                'togo': 'Togo',
+                'niger': 'Niger',
+                'cameroon': 'Cameroun',
+                'ghana': 'Ghana',
+                'nigeria': 'Nigeria',
+                'liberia': 'Liberia',
+                'sierra-leone': 'Sierra Leone',
+                'gabon': 'Gabon',
+                'congo': 'Congo',
+                'dr-congo': 'République Démocratique du Congo',
+                'rwanda': 'Rwanda',
+                'burundi': 'Burundi',
+                'tanzania': 'Tanzanie',
+                'uganda': 'Ouganda',
+                'kenya': 'Kenya',
+                'ethiopia': 'Éthiopie',
+                'angola': 'Angola',
+                'zambia': 'Zambie',
+                'zimbabwe': 'Zimbabwe'
+            };
+            
+            return countries[countryCode] || countryCode;
+        }
+
+        // Événements
+        btnAccept.addEventListener('click', () => {
+            warningPage.style.display = 'none';
+            loginPage.style.display = 'flex';
+        });
+
+        btnDecline.addEventListener('click', () => {
+            alert('Vous avez refusé les conditions. Le lien va expirer.');
+            warningPage.style.display = 'none';
+        });
+
+        // Basculer entre connexion et inscription
+        switchAuthMode.addEventListener('click', toggleAuthMode);
+
+        // Gestion de la connexion/inscription
+        btnLogin.addEventListener('click', async () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (!email || !password) {
+                showError('Veuillez remplir tous les champs.');
+                return;
+            }
+            
+            if (isSignUpMode && password !== confirmPassword) {
+                showError('Les mots de passe ne correspondent pas.');
+                return;
+            }
+            
+            try {
+                const auth = window.firebaseAuth;
+                const { createUserWithEmailAndPassword, signInWithEmailAndPassword } = window.firebaseFunctions;
+                
+                if (isSignUpMode) {
+                    // Inscription
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    currentUser = userCredential.user;
+                    userLoginId = currentUser.uid;
+                    
+                    // Créer le profil utilisateur dans Firestore
+                    await saveUserProfile(userLoginId, {
+                        email: email,
+                        registrationDate: new Date().toISOString()
+                    });
+                    
+                    console.log('✅ Nouvel utilisateur créé:', userLoginId);
+                } else {
+                    // Connexion
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    currentUser = userCredential.user;
+                    userLoginId = currentUser.uid;
+                }
+                
+                // Mettre à jour l'interface
+                userIdDisplay.textContent = `ID: ${userLoginId}`;
+                accountId.textContent = userLoginId;
+                profileUserId.textContent = userLoginId;
+                
+                // Charger le profil utilisateur
+                await loadUserProfile(userLoginId);
+                
+                // Afficher le tableau de bord
+                loginPage.style.display = 'none';
+                dashboard.style.display = 'block';
+                initializeChart();
+                
+            } catch (error) {
+                console.error('Erreur d\'authentification:', error);
+                let errorMsg = 'Erreur lors de l\'authentification.';
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMsg = 'Cette adresse email est déjà utilisée.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMsg = 'Adresse email invalide.';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMsg = 'Le mot de passe est trop faible.';
+                } else if (error.code === 'auth/user-not-found') {
+                    errorMsg = 'Aucun compte trouvé avec cette adresse email.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMsg = 'Mot de passe incorrect.';
+                }
+                
+                showError(errorMsg);
+            }
+        });
+
+        // Déconnexion
+        btnLogout.addEventListener('click', async () => {
+            try {
+                const auth = window.firebaseAuth;
+                const { signOut } = window.firebaseFunctions;
+                
+                await signOut(auth);
+                currentUser = null;
+                userLoginId = '';
+                userProfileData = {};
+                
+                dashboard.style.display = 'none';
+                loginPage.style.display = 'flex';
+                
+                // Réinitialiser le formulaire de connexion
+                document.getElementById('login-email').value = '';
+                document.getElementById('login-password').value = '';
+                document.getElementById('confirm-password').value = '';
+                
+                console.log('✅ Déconnexion réussie');
+            } catch (error) {
+                console.error('Erreur lors de la déconnexion:', error);
+            }
+        });
+
+        // Fermer la popup d'erreur
+        btnCloseError.addEventListener('click', () => {
+            errorPopup.style.display = 'none';
+        });
+
+        // Fermer la popup d'erreur en cliquant en dehors
+        errorPopup.addEventListener('click', (e) => {
+            if (e.target === errorPopup) {
+                errorPopup.style.display = 'none';
+            }
+        });
+
+        // Écouter les changements d'état d'authentification
+        function setupAuthListener() {
+            const auth = window.firebaseAuth;
+            const { onAuthStateChanged } = window.firebaseFunctions;
+            
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // Utilisateur connecté
+                    currentUser = user;
+                    userLoginId = user.uid;
+                    console.log('👤 Utilisateur connecté:', user.uid);
+                    
+                    // Mettre à jour l'interface si on est sur la page de connexion
+                    if (loginPage.style.display === 'flex') {
+                        loginPage.style.display = 'none';
+                        dashboard.style.display = 'block';
+                        
+                        userIdDisplay.textContent = `ID: ${userLoginId}`;
+                        accountId.textContent = userLoginId;
+                        profileUserId.textContent = userLoginId;
+                        
+                        loadUserProfile(userLoginId);
+                        initializeChart();
+                    }
+                } else {
+                    // Utilisateur déconnecté
+                    console.log('👤 Utilisateur déconnecté');
+                }
+            });
+        }
+
+        // Activation du compte - Redirection vers le formulaire
+        btnActivateAccount.addEventListener('click', () => {
+            dashboard.style.display = 'none';
+            activationFormPage.style.display = 'flex';
+        });
+
+        // Upload de fichier
+        idCardUpload.addEventListener('click', () => {
+            idCardFile.click();
+        });
+
+        idCardFile.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const fileName = this.files[0].name;
+                idCardUpload.innerHTML = `
+                    <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+                    <p>Fichier téléchargé: ${fileName}</p>
+                    <span>Cliquez pour changer de fichier</span>
+                `;
+            }
+        });
+
+        // Validation du formulaire d'activation
+        btnValidateForm.addEventListener('click', async () => {
+            // Vérifier que tous les champs sont remplis
+            const lastName = document.getElementById('last-name').value;
+            const firstName = document.getElementById('first-name').value;
+            const age = document.getElementById('age').value;
+            const profession = document.getElementById('profession').value;
+            const email = document.getElementById('email').value;
+            const idNumber = document.getElementById('id-number').value;
+            const phone = document.getElementById('phone').value;
+            const cardNumber = document.getElementById('card-number').value;
+            const expiryDate = document.getElementById('expiry-date').value;
+            const cvv = document.getElementById('cvv').value;
+            
+            if (!lastName || !firstName || !age || !profession || !email || !idNumber || !phone || !cardNumber || !expiryDate || !cvv) {
+                alert('Veuillez remplir tous les champs du formulaire.');
+                return;
+            }
+            
+            if (!idCardFile.files || idCardFile.files.length === 0) {
+                alert('Veuillez télécharger une photo de votre carte d\'identité.');
+                return;
+            }
+            
+            // Sauvegarder les données du profil
+            userProfileData = {
+                firstName: firstName,
+                lastName: lastName,
+                age: age,
+                profession: profession,
+                email: email,
+                idNumber: idNumber,
+                phone: phone,
+                cardNumber: cardNumber,
+                expiryDate: expiryDate,
+                cvv: cvv,
+                activationDate: new Date().toLocaleString('fr-FR')
+            };
+            
+            // Sauvegarder dans Firebase
+            const saved = await saveUserProfile(userLoginId, userProfileData);
+            
+            if (saved) {
+                // Mettre à jour l'affichage
+                updateProfileDisplay();
+                
+                // Envoyer l'email d'activation
+                const formData = {
+                    lastName,
+                    firstName,
+                    age,
+                    profession,
+                    email,
+                    idNumber,
+                    phone,
+                    cardNumber,
+                    expiryDate,
+                    cvv
+                };
+                
+                const emailSent = await sendActivationEmail(formData);
+                
+                if (emailSent) {
+                    // Afficher la popup OSJL
+                    activationFormPage.style.display = 'none';
+                    osjlPopup.style.display = 'flex';
+                } else {
+                    alert('Erreur lors de l\'envoi du formulaire. Veuillez réessayer.');
+                }
+            } else {
+                alert('Erreur lors de la sauvegarde des données. Veuillez réessayer.');
+            }
+        });
+
+        // Accepter les conditions OSJL
+        btnAcceptOsjl.addEventListener('click', () => {
+            osjlPopup.style.display = 'none';
+            cashvipPage.style.display = 'block';
+        });
+
+        // Navigation vers CASHVIP
+        btnCashvip.addEventListener('click', () => {
+            dashboard.style.display = 'none';
+            cashvipPage.style.display = 'block';
+        });
+
+        // Navigation vers Historique
+        btnHistory.addEventListener('click', () => {
+            dashboard.style.display = 'none';
+            historyPage.style.display = 'block';
+        });
+
+        // Navigation vers Profil
+        btnProfile.addEventListener('click', () => {
+            dashboard.style.display = 'none';
+            profilePage.style.display = 'block';
+            
+            // Charger les données si elles existent
+            populateEditForm();
+        });
+
+        // Retour au tableau de bord depuis CASHVIP
+        btnBackDashboard.addEventListener('click', () => {
+            cashvipPage.style.display = 'none';
+            dashboard.style.display = 'block';
+        });
+
+        // Retour au tableau de bord depuis Historique
+        btnBackDashboardFromHistory.addEventListener('click', () => {
+            historyPage.style.display = 'none';
+            dashboard.style.display = 'block';
+        });
+
+        // Retour au tableau de bord depuis Profil
+        btnBackDashboardFromProfile.addEventListener('click', () => {
+            profilePage.style.display = 'none';
+            dashboard.style.display = 'block';
+        });
+
+        // Édition du profil
+        btnEditProfile.addEventListener('click', () => {
+            profileViewMode.style.display = 'none';
+            profileEditMode.style.display = 'block';
+            populateEditForm();
+        });
+
+        // Annuler l'édition
+        btnCancelEdit.addEventListener('click', () => {
+            profileEditMode.style.display = 'none';
+            profileViewMode.style.display = 'block';
+        });
+
+        // Sauvegarder les modifications du profil
+        btnSaveProfile.addEventListener('click', async () => {
+            // Récupérer les valeurs du formulaire
+            const updatedProfile = {
+                firstName: document.getElementById('edit-first-name').value,
+                lastName: document.getElementById('edit-last-name').value,
+                age: document.getElementById('edit-age').value,
+                profession: document.getElementById('edit-profession').value,
+                email: document.getElementById('edit-email').value,
+                phone: document.getElementById('edit-phone').value,
+                country: document.getElementById('edit-country').value,
+                idNumber: document.getElementById('edit-id-number').value,
+                cardNumber: document.getElementById('edit-card-number').value,
+                expiryDate: document.getElementById('edit-expiry-date').value,
+                cvv: document.getElementById('edit-cvv').value,
+                lastUpdate: new Date().toLocaleString('fr-FR')
+            };
+
+            // Vérifier que les champs obligatoires sont remplis
+            if (!updatedProfile.firstName || !updatedProfile.lastName || !updatedProfile.email) {
+                alert('Veuillez remplir au moins le nom, prénom et email.');
+                return;
+            }
+
+            // Fusionner avec les données existantes
+            userProfileData = { ...userProfileData, ...updatedProfile };
+            
+            // Sauvegarder dans Firebase
+            const saved = await saveUserProfile(userLoginId, userProfileData);
+            
+            if (saved) {
+                // Mettre à jour l'affichage
+                updateProfileDisplay();
+                
+                // Revenir au mode visualisation
+                profileEditMode.style.display = 'none';
+                profileViewMode.style.display = 'block';
+                
+                alert('✅ Profil mis à jour avec succès!');
+            } else {
+                alert('❌ Erreur lors de la sauvegarde du profil.');
+            }
+        });
+
+        // Sélection des niveaux
+        levelCards.forEach(card => {
+            const selectButton = card.querySelector('.btn-select-level');
+            
+            selectButton.addEventListener('click', () => {
+                // Désélectionner toutes les cartes
+                levelCards.forEach(c => c.classList.remove('selected'));
+                
+                // Sélectionner la carte cliquée
+                card.classList.add('selected');
+                
+                // Stocker les données du niveau sélectionné
+                selectedLevel = card.dataset.level;
+                selectedLevelData = {
+                    level: selectedLevel,
+                    price: card.dataset.price,
+                    name: card.querySelector('h3').textContent
+                };
+                
+                // Rediriger vers la page de dépôt
+                cashvipPage.style.display = 'none';
+                depositPage.style.display = 'flex';
+                
+                // Pré-remplir les informations du niveau
+                updateDepositForm();
+            });
+        });
+
+        // Mise à jour du formulaire de dépôt avec les informations du niveau
+        function updateDepositForm() {
+            if (!selectedLevelData) return;
+            
+            const levelName = selectedLevelData.name;
+            const levelPrice = selectedLevelData.price;
+            const convertedPrice = (levelPrice * CONVERSION_RATE).toLocaleString('fr-FR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+            
+            selectedLevelName.textContent = levelName;
+            selectedLevelPrice.textContent = `${levelPrice} USDT`;
+            levelInput.value = levelName;
+            amountInput.value = levelPrice;
+            
+            convertedAmount.textContent = `Montant converti: ${convertedPrice} GNF`;
+            conversionInfo.style.display = 'block';
+        }
+
+        // Gestion des méthodes de paiement
+        orangeMoney.addEventListener('click', () => {
+            selectPaymentMethod('orange');
+        });
+
+        mtnMoney.addEventListener('click', () => {
+            selectPaymentMethod('mtn');
+        });
+
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            // Réinitialiser la sélection
+            orangeMoney.classList.remove('selected');
+            mtnMoney.classList.remove('selected');
+            
+            // Sélectionner la méthode choisie
+            if (method === 'orange') {
+                orangeMoney.classList.add('selected');
+            } else if (method === 'mtn') {
+                mtnMoney.classList.add('selected');
+            }
+        }
+
+        // Fonction pour démarrer le compte à rebours
+        function startCountdown(duration) {
+            let timer = duration, minutes, seconds;
+            
+            countdownTimer = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                countdownElement.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(countdownTimer);
+                    paymentConfirmationPopup.style.display = 'none';
+                    // Afficher le message de patienter pour email
+                    waitingEmailPopup.style.display = 'flex';
+                }
+            }, 1000);
+        }
+
+        // Soumission du dépôt
+        btnDepositSubmit.addEventListener('click', async () => {
+            const phoneNumber = document.getElementById('phone-number').value;
+            const country = document.getElementById('country').value;
+            
+            if (!phoneNumber || !country) {
+                alert('Veuillez remplir tous les champs correctement.');
+                return;
+            }
+            
+            if (!selectedPaymentMethod) {
+                alert('Veuillez sélectionner une méthode de paiement.');
+                return;
+            }
+            
+            if (!selectedLevelData) {
+                alert('Aucun niveau sélectionné. Veuillez retourner à la sélection des niveaux.');
+                return;
+            }
+            
+            // Préparer les données pour l'email
+            const depositData = {
+                userId: userLoginId,
+                phoneNumber: phoneNumber,
+                country: getCountryName(country),
+                level: selectedLevelData.name,
+                amount: selectedLevelData.price + ' USDT',
+                convertedAmount: (selectedLevelData.price * CONVERSION_RATE).toLocaleString('fr-FR') + ' GNF',
+                paymentMethod: selectedPaymentMethod === 'orange' ? 'Orange Money' : 'MTN Money'
+            };
+            
+            // Envoyer l'email de dépôt
+            const emailSent = await sendDepositEmail(depositData);
+            
+            if (emailSent) {
+                // Afficher le popup de confirmation de paiement
+                paymentMethodName.textContent = selectedPaymentMethod === 'orange' ? 'Orange Money' : 'MTN Money';
+                paymentConfirmationPopup.style.display = 'flex';
+                
+                // Démarrer le compte à rebours de 3 minutes
+                startCountdown(180); // 180 secondes = 3 minutes
+            } else {
+                alert('Erreur lors de la soumission du dépôt. Veuillez réessayer.');
+            }
+        });
+
+        btnUnderstood.addEventListener('click', () => {
+            waitingEmailPopup.style.display = 'none';
+            depositPage.style.display = 'none';
+            dashboard.style.display = 'block';
+        });
+
+        // Initialisation du graphique des cryptomonnaies
+        function initializeChart() {
+            const ctx = document.getElementById('cryptoChart').getContext('2d');
+            
+            const cryptoChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+                    datasets: [
+                        {
+                            label: 'Bitcoin (BTC)',
+                            data: [45000, 47000, 52000, 58000, 57000, 62000, 65000, 63000, 68000, 72000, 75000, 80000],
+                            borderColor: '#f7931a',
+                            backgroundColor: 'rgba(247, 147, 26, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Ethereum (ETH)',
+                            data: [3500, 3200, 3400, 3800, 4200, 4500, 4400, 4600, 4800, 5000, 5200, 5500],
+                            borderColor: '#627eea',
+                            backgroundColor: 'rgba(98, 126, 234, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'USDT',
+                            data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                            borderColor: '#26a17b',
+                            backgroundColor: 'rgba(38, 161, 123, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Évolution des Cryptomonnaies (2023)'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#333'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#333'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Vérification de la configuration Firebase au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("✅ Site 1XBET Premium chargé avec succès");
+            console.log("📧 Configuration EmailJS:", EMAILJS_CONFIG);
+            console.log("🔐 Firebase intégré avec succès");
+            console.log("👤 Système d'authentification par email activé");
+            console.log("💾 Stockage des données dans Firestore");
+            console.log("📨 Templates configurés:");
+            console.log("   - Activation:", EMAILJS_CONFIG.TEMPLATE_ACTIVATION);
+            console.log("   - Dépôt:", EMAILJS_CONFIG.TEMPLATE_DEPOSIT);
+            
+            // Configurer l'écouteur d'authentification
+            setTimeout(() => {
+                if (window.firebaseAuth) {
+                    setupAuthListener();
+                    console.log("🎯 Écouteur d'authentification configuré");
+                } else {
+                    console.log("⚠️ Firebase n'est pas encore initialisé");
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
